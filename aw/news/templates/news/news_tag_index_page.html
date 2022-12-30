@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+
+    {% if request.GET.tag %}
+        <h4>Showing pages tagged "{{ request.GET.tag }}"</h4>
+    {% endif %}
+    {{ newspages }}
+
+    {% for newspage in newspages %}
+
+          <p>
+              <strong><a href="{% pageurl newspage %}">{{ newspage.title }}</a></strong><br />
+              <small>Revised: {{ newspage.latest_revision_created_at }}</small><br />
+              {% if newspage.author %}
+                <p>By {{ newspage.author.profile }}</p>
+              {% endif %}
+          </p>
+
+    {% empty %}
+        No pages found with that tag.
+    {% endfor %}
+
+{% endblock %}

@@ -22,7 +22,14 @@
         {% endif %}
 
         {# Global stylesheets #}
+        <!-- UIkit CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.19/dist/css/uikit.min.css" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/aw.css' %}">
+
+
+        <!-- UIkit JS -->
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.19/dist/js/uikit.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.19/dist/js/uikit-icons.min.js"></script>
 
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
@@ -30,8 +37,42 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
+
+
+    <div uk-sticky>
+        <nav class="uk-navbar-container" uk-navbar style="position: relative; z-index: 980;">
+            <div class="uk-navbar-center">
+
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="#">Active</a></li>
+                    <li>
+                        <a href="#">Parent</a>
+                        <div class="uk-navbar-dropdown">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                <li class="uk-active"><a href="#">Active</a></li>
+                                <li><a href="#">Item</a></li>
+                                <li><a href="#">Item</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="#">Item</a></li>
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+
+
+
+
+
+
+
+
         {% wagtailuserbar %}
-        <h3>{% main_menu max_levels=3 %} </h3>
+        <h3>
+            {% flat_menu 'fm' max_levels=2 show_menu_heading=False  fall_back_to_default_site_menus=True %}
+        </h3>
         {% block content %}{% endblock %}
 
         {# Global javascript #}
