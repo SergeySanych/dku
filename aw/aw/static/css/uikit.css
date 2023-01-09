@@ -4099,7 +4099,8 @@ select.uk-form-width-xsmall {
   box-sizing: border-box;
   width: 270px;
   padding: 20px 20px;
-  background: #222;
+  background: #F8F8F8;
+  border-right: 1px solid #1484F4;
   /* 3 */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -5353,7 +5354,6 @@ ul.uk-nav-sub {
 .uk-navbar-nav > li > a {
   padding: 0 0;
   color: #999;
-  text-transform: uppercase;
   transition: 0.1s ease-in-out;
   transition-property: color, background-color;
 }
@@ -5434,6 +5434,7 @@ ul.uk-nav-sub {
  * 2. Set position
  * 3. Set a default width
  * 4. Style
+ * Поменял под свой стиль
  */
 .uk-navbar-dropdown {
   /* 1 */
@@ -5446,12 +5447,13 @@ ul.uk-nav-sub {
   --uk-position-viewport-offset: 15px;
   /* 3 */
   box-sizing: border-box;
-  width: 200px;
+  width: 240px;
   /* 4 */
-  padding: 25px;
-  background: #fff;
-  color: #666;
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  background: #fdfdfd;
+  border-top: 2px solid #1484F4;
+  color: #2165AD;
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.15);
 }
 /* Show */
 .uk-navbar-dropdown.uk-open {
@@ -5546,14 +5548,16 @@ ul.uk-nav-sub {
   font-size: 0.875rem;
 }
 /*
- * Items
+ * Items - Изменил цвета
  */
 .uk-navbar-dropdown-nav > li > a {
-  color: #999;
+  color: #2165AD;
+  font-family: 'Nunito', sans-serif;
+
 }
 /* Hover */
 .uk-navbar-dropdown-nav > li > a:hover {
-  color: #666;
+  color: #1484F4;
 }
 /* Active */
 .uk-navbar-dropdown-nav > li.uk-active > a {
@@ -5575,6 +5579,10 @@ ul.uk-nav-sub {
  * Divider
  */
 .uk-navbar-dropdown-nav .uk-nav-divider {
+  border-top: 1px solid #e5e5e5;
+}
+
+.uk-nav-divider {
   border-top: 1px solid #e5e5e5;
 }
 /*
@@ -9432,7 +9440,10 @@ iframe[data-uk-cover] {
 .uk-overlay-primary .uk-link,
 .uk-offcanvas-bar a,
 .uk-offcanvas-bar .uk-link {
-  color: #fff;
+  color: #2165AD;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+
 }
 .uk-light a:hover,
 .uk-light .uk-link:hover,
@@ -9467,7 +9478,7 @@ iframe[data-uk-cover] {
 .uk-offcanvas-bar a:hover,
 .uk-offcanvas-bar .uk-link:hover,
 .uk-offcanvas-bar .uk-link-toggle:hover .uk-link {
-  color: #fff;
+  color: #666;
 }
 .uk-light :not(pre) > code,
 .uk-light :not(pre) > kbd,
@@ -10959,7 +10970,7 @@ iframe[data-uk-cover] {
 .uk-card-secondary > :not([class*='uk-card-media']) .uk-close,
 .uk-overlay-primary .uk-close,
 .uk-offcanvas-bar .uk-close {
-  color: rgba(255, 255, 255, 0.5);
+  color: #2165AD;
 }
 .uk-light .uk-close:hover,
 .uk-section-primary:not(.uk-preserve-color) .uk-close:hover,

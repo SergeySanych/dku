@@ -22,9 +22,13 @@
         {% endif %}
 
         {# Global stylesheets #}
-        <!-- UIkit CSS -->
+        <!-- CSS -->
         <link rel="stylesheet" href="{% static 'css/uikit.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/aw.css' %}">
+
+         <!-- Fonts -->
+        <style> @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap'); </style>
+
 
 
         <!-- UIkit JS -->
@@ -38,42 +42,35 @@
 
     <body class="{% block body_class %}{% endblock %}">
 
-
+    <!-- Flat menu -->
     <div uk-sticky>
-        <nav class="uk-navbar-container" uk-navbar style="position: relative; z-index: 980;">
-            <div class="uk-navbar-center">
-
-                <ul class="uk-navbar-nav">
-                    <li class="uk-active"><a href="#">Active</a></li>
-                    <li>
-                        <a href="#">Parent</a>
-                        <div class="uk-navbar-dropdown">
-                            <ul class="uk-nav uk-navbar-dropdown-nav">
-                                <li class="uk-active"><a href="#">Active</a></li>
-                                <li><a href="#">Item</a></li>
-                                <li><a href="#">Item</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="#">Item</a></li>
-                </ul>
-
-            </div>
-        </nav>
+        <div>
+            <nav class="uk-navbar-container" uk-navbar style="position: relative; z-index: 980;">
+                <div class="uk-navbar-center">
+                    {% flat_menu 'fm' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+                </div>
+            </nav>
+        </div>
     </div>
 
-
-
-
-
-
-
+    <!-- OffCanvas menu -->
+    <div id="offcanvas-nav-primary" uk-offcanvas="overlay: true">
+        <div class="uk-offcanvas-bar uk-flex uk-flex-column">
+            <button class="uk-offcanvas-close" type="button" uk-close></button>
+            <h3>Меню</h3>
+            {% flat_menu 'fm' max_levels=3 template="modal_menu.html" sub_menu_templates="modal_menu_2.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+        </div>
+    </div>
 
         {% wagtailuserbar %}
-        <h3>
-            {% flat_menu 'fm' max_levels=2 show_menu_heading=False  fall_back_to_default_site_menus=True %}
-        </h3>
+
         {% block content %}{% endblock %}
+
+
+
+
+
+
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/aw.js' %}"></script>
