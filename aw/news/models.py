@@ -47,6 +47,11 @@ class NewsPage(Page):
         else:
             return None
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['newspages'] = self.get_children()
+        return context
+
     search_fields = Page.search_fields + [
         index.SearchField('intro'),
         index.SearchField('body'),
@@ -75,16 +80,14 @@ class NewsPageGalleryImage(Orderable):
         FieldPanel('caption'),
     ]
 
-
 class NewsTagIndexPage(Page):
 
     def get_context(self, request):
 
         # Filter by tag
         tag = request.GET.get('tag')
-        print(tag)
-        newspages = NewsPage.objects.filter(tags__name=tag)
-        print(newspages)
+        # newspages = NewsPage.objects.filter(tags__name=tag)
+        newspages = NewsPage.objects.all()
         # Update template context
         context = super().get_context(request)
         context['newspages'] = newspages

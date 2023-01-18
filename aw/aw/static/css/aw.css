@@ -1,7 +1,77 @@
+/* Верхний слой страницы постов пока */
+.postpage {
+
+}
+
+
 .uk-navbar-container:not(.uk-navbar-transparent) {
     border-top: 1px solid #1484F4;
     height: 70px;
     box-shadow: 0px 0px 5px #bbbbbb;
+}
+h1 {
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.5rem;
+    color: #808080;
+    margin: 0;
+}
+h2 {
+    font-weight: 400;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.25rem;
+    color: #808080;
+    margin: 0;
+}
+
+h3 {
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.75rem;
+    color: #2165AD;
+}
+
+.left-list-text {
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    color: #2165AD;
+}
+
+.left-list-link {
+  color: #2165AD;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.left-list-link:hover {
+  color: #1484F4;
+  text-decoration: none;
+}
+
+
+
+.whitetext {
+    color: #fafafa;
+}
+
+.nunito-font {
+    font-family: 'Nunito', sans-serif;
+}
+
+.overlay-link {
+    color: #fafafa;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+}
+
+.overlay-link:hover {
+    color: #ffffff;
+    text-decoration: none;
 }
 
 .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {
@@ -12,7 +82,6 @@
     font-weight: 600;
     text-decoration: none;
     color: #2165AD;
-    font-weight: bold;
 }
 /* Ширина текста выподающего меню */
 .ws {
@@ -31,5 +100,9 @@
 
 .li-divider {
     border-top: 1px solid #e5e5e5;
+}
+
+.whiteborder {
+    border: 1px solid #fafafa;
 }
 

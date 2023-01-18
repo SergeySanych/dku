@@ -6,7 +6,6 @@
     {% if request.GET.tag %}
         <h4>Showing pages tagged "{{ request.GET.tag }}"</h4>
     {% endif %}
-    {{ newspages }}
 
     {% for newspage in newspages %}
 
