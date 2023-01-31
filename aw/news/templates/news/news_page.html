@@ -5,7 +5,6 @@
 {% block body_class %}template-blogpage{% endblock %}
 
 {% block content %}
-
 <!-- MainContent Two column -->
 <div class="uk-section uk-section-default uk-section-xsmall">
     <div class="uk-container uk-container-large">
@@ -24,8 +23,7 @@
                 <!-- Post -->
                 <div>
                     <h3>{{ page.title }}</h3>
-                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1"
-                         uk-slideshow="ratio: 5:2">
+                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="ratio: 5:2">
                         <ul class="uk-slideshow-items">
                             {% for item in page.gallery_images.all %}
                             <li>

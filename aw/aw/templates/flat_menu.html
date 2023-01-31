@@ -1,7 +1,10 @@
 {% load menu_tags %}
-<ul class="uk-navbar-nav">
+<ul class="uk-navbar-nav" uk-grid>
+
+    <li><a href="/ru/" uk-icon="icon: home"></a></li>
+
 {% for item in menu_items %}
-    <li>
+    <li class="uk-width-auto@m uk-visible@l">
         <a href="{{ item.href }}">{{ item.text }}
             {% if item.has_children_in_menu %}
                 <span uk-navbar-parent-icon></span>

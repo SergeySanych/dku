@@ -40,7 +40,7 @@ a:hover,
 .uk-link:hover,
 .uk-link-toggle:hover .uk-link {
   color: #0f6ecd;
-  text-decoration: underline;
+  text-decoration: none;
 }
 /* Text-level semantics
  ========================================================================== */
@@ -9447,7 +9447,7 @@ iframe[data-uk-cover] {
 .uk-offcanvas-bar {
   color: rgba(255, 255, 255, 0.7);
 }
-.uk-light a,
+
 .uk-light .uk-link,
 .uk-section-primary:not(.uk-preserve-color) a,
 .uk-section-primary:not(.uk-preserve-color) .uk-link,
@@ -9474,7 +9474,7 @@ iframe[data-uk-cover] {
   font-weight: 600;
 
 }
-.uk-light a:hover,
+
 .uk-light .uk-link:hover,
 .uk-light .uk-link-toggle:hover .uk-link,
 .uk-section-primary:not(.uk-preserve-color) a:hover,
