@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     "home",
     "search",
     "news",
+    "peoples",
+    "menuitem",
     "wagtail_localize",
     "wagtail_localize.locales",
     "wagtail.contrib.forms",

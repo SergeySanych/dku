@@ -1,0 +1,34 @@
+{% extends "internalbase.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+
+{% block lcolumn %}
+
+<p>Левая колонка</p>
+<p>Это контент в левой колонке. Это контент в левой колонке. Это контент в левой колонке.</p>
+
+
+{% endblock %}
+
+{% block rcolumn %}
+
+<div uk-grid>
+        <div class="uk-width-1-1" uk-grid>
+            <div class="uk-width-1-1 uk-width-1-2@s uk-flex uk-flex-center">
+                <div class="uk-panel uk-cover-container">
+                    {% image page.photo fill-450x600 class="uk-cover" %}
+                </div>
+            </div>
+            <div class="uk-width-1-1 uk-width-1-2@s">
+                <div>
+                    <h3>{{ page.full_name }}</h3>
+                    <div>{{ page.short_discription | richtext }}</div>
+                    <div>{{ page.full_discription | richtext }}</div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+
+{% endblock %}

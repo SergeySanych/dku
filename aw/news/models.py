@@ -4,10 +4,16 @@ from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 from wagtail.models import Page, Orderable, Locale
-from wagtail.fields import RichTextField
+from wagtail.fields import RichTextField, StreamField
+from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
+from wagtail.search.backends.database.postgres.postgres import PostgresSearchQueryCompiler
+
+# Partial search bug fix
+PostgresSearchQueryCompiler.LAST_TERM_IS_PREFIX = True
 
 
 class NewsIndexPage(Page):
@@ -123,7 +129,6 @@ class MainPage(Page):
         on_delete=models.SET_NULL, related_name='+'
     )
 
-
     components = ParentalManyToManyField('news.ComponentsList', blank=True)
 
     content_panels = Page.content_panels + [
@@ -168,7 +173,6 @@ class MainPage(Page):
 class NewsTagIndexPage(Page):
 
     def get_context(self, request):
-
         # Filter by tag
         tag = request.GET.get('tag')
         # newspages = NewsPage.objects.filter(tags__name=tag)
@@ -222,9 +226,44 @@ class ComponentsList(models.Model):
         PageChooserPanel('related_page'),
     ]
 
-
     def __str__(self):
         return self.component
 
     class Meta:
         verbose_name_plural = 'Key components list'
+
+
+# InternalPage
+class InternalPage(Page):
+    class ColumnBlock(blocks.StructBlock):
+        left = blocks.CharBlock()
+        right = blocks.RichTextBlock()
+
+        class Meta:
+            template = 'column.html'
+            icon = 'user'
+
+    related_pages = ParentalManyToManyField(
+        'wagtailcore.Page',
+        blank=True,
+        related_name='+',
+    )
+    date = models.DateField("Post date")
+    body = StreamField([
+        ('column', blocks.ListBlock(ColumnBlock())),
+        ('heading', blocks.CharBlock(form_classname="title")),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+    ], use_json_field=True)
+
+    search_fields = Page.search_fields + [
+        index.SearchField('title', partial_match=True),
+        index.AutocompleteField('title'),
+        index.SearchField('body', partial_match=True),
+    ]
+
+    content_panels = Page.content_panels + [
+        FieldPanel('date'),
+        PageChooserPanel('related_pages'),
+        FieldPanel('body'),
+    ]
