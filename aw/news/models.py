@@ -131,6 +131,11 @@ class MainPage(Page):
 
     components = ParentalManyToManyField('news.ComponentsList', blank=True)
 
+    def get_template(self, request, *args, **kwargs):
+        if self.locale.language_code == "en":
+            return 'news/main_page_en.html'
+        return 'news/main_page.html'
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('components', widget=forms.CheckboxSelectMultiple),
@@ -227,7 +232,7 @@ class ComponentsList(models.Model):
     ]
 
     def __str__(self):
-        return self.component
+        return self.componentname
 
     class Meta:
         verbose_name_plural = 'Key components list'

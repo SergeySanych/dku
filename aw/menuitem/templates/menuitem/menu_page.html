@@ -1,0 +1,111 @@
+{% extends "internalbase.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block lcolumn %}
+<!-- Left column -->
+<div>
+{% if page.menupage_left %}
+    {% for children in childrenpages %}
+        {% with children=children.specific %}
+            <p class="left-list-text uk-margin-small-top uk-margin-small-bottom">
+                <a class="left-list-link" href="{% pageurl children %}">{{ children.title }}</a>
+            </p>
+            <p class="li-divider uk-margin-remove"></p>
+        {% endwith %}
+    {% endfor %}
+{% endif %}
+    <h4>Сопутствующие материалы:</h4>
+    {% for project in projectlist %}
+        {% with project=project.specific %}
+            <p class="left-list-text uk-margin-small-top uk-margin-small-bottom">
+                <a class="left-list-link" href="{% pageurl project %}">{{ project.title }}</a>
+            </p>
+            <p class="li-divider uk-margin-remove"></p>
+        {% endwith %}
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}
+
+{% block rcolumn %}
+<!-- Post -->
+<div>
+    <h3>{{ page.menupage_header }}</h3>
+    <div class="uk-position-relative uk-visible-toggle uk-light uk-margin-small-bottom" tabindex="-1" uk-slideshow="ratio: 5:2">
+        {% if page.main_image %}
+        <ul class="uk-slideshow-items">
+            {% for item in page.menupage_gallery_images.all %}
+            <li>
+                {% image item.menupage_image fill-875x350 as tmp_photo %}
+                <img src="{{ tmp_photo.url }}" alt="{{ item.menupage_image_caption }}" uk-cover/>
+            </li>
+            {% endfor %}
+
+        </ul>
+        {% endif %}
+
+        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#"
+           uk-slidenav-previous
+           uk-slideshow-item="previous"></a>
+        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next
+           uk-slideshow-item="next"></a>
+
+    </div>
+
+    <div class="intro">{{ page.menupage_intro|richtext }}</div>
+    {% include_block page.menupage_body %}
+
+</div>
+<!-- Projects -->
+<div class="uk-section uk-section-default uk-section-xsmall">
+    <div class="uk-child-width-1-2" uk-grid>
+    {% with projects=page.menupage_projects.all %}
+    {% if projects %}
+        {% for project in projects %}
+        <div>
+            <div class="uk-inline">
+
+                    {% with project.main_image as main_image %}
+                        {% if main_image %}
+                        {% image main_image fill-500x330 %}
+                    {% endif %}
+
+                <div class="uk-overlay uk-overlay-default uk-position-bottom  uk-flex uk-flex-middle uk-flex-center uk-text-center">
+                    <a class="overlay-link" href="{% pageurl project %}">{{ project.title }}</a>
+                </div>
+                {% endwith %}
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    </div>
+</div>
+
+<!-- Childrens -->
+{% if page.menupage_vitrina %}
+<div class="uk-section uk-section-default uk-section-xsmall">
+    <div class="uk-child-width-1-2" uk-grid>
+
+        {% for children in childrenpages %}
+        <div>
+            <div class="uk-inline">
+                {% with children=children.specific %}
+                    {% with children.main_image as main_image %}
+                        {% if main_image %}
+                        {% image main_image fill-500x330 %}
+                        {% endif %}
+                    {% endwith %}
+                <div class="uk-overlay uk-overlay-default uk-position-bottom  uk-flex uk-flex-middle uk-flex-center uk-text-center">
+                    <a class="overlay-link" href="{% pageurl children %}">{{ children.title }}</a>
+                </div>
+                {% endwith %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

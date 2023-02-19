@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailuserbar menu_tags wagtailimages_tags %}
+{% load static wagtailcore_tags wagtailuserbar menu_tags wagtailimages_tags i18n %}
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -51,7 +51,19 @@
         <div>
             <nav class="uk-navbar-container" uk-navbar style="position: relative; z-index: 980;">
                 <div class="uk-navbar-center">
-                    {% flat_menu 'fm' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+                    {% if page %}
+                        {% for translation in page.get_translations.live %}
+
+                            {% get_language_info for translation.locale.language_code as lang %}
+                                {% if lang.code == "ru" %}
+                                    {% flat_menu 'fm_en' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+                                {% endif %}
+                                {% if lang.code == "en" %}
+                                    {% flat_menu 'fm' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+                                {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
                 </div>
             </nav>
         </div>
@@ -66,7 +78,6 @@
         </div>
     </div>
 
-        {% wagtailuserbar %}
 
  <!-- Header -->
     <div class="uk-section uk-section-default uk-section-xsmall">

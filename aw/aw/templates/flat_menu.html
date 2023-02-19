@@ -1,4 +1,4 @@
-{% load menu_tags %}
+{% load menu_tags i18n wagtailcore_tags %}
 <ul class="uk-navbar-nav" uk-grid>
 
     <li><a href="/ru/" uk-icon="icon: home"></a></li>
@@ -16,5 +16,15 @@
 
     </li>
 {% endfor %}
-    <a class="uk-navbar-toggle" uk-navbar-toggle-icon uk-toggle="target: #offcanvas-nav-primary" href="#"></a>
+    <li><a class="uk-navbar-toggle" uk-navbar-toggle-icon uk-toggle="target: #offcanvas-nav-primary" href="#"></a></li>
+    <li class="uk-flex uk-flex-middle">
+        {% if page %}
+            {% for translation in page.get_translations.live %}
+                {% get_language_info for translation.locale.language_code as lang %}
+                <a href="{% pageurl translation %}" rel="alternate" hreflang="{{ lang.code }}" class="icon-button">
+                    {{ lang.code }}
+                </a>
+            {% endfor %}
+        {% endif %}
+    </li>
 </ul>

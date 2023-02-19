@@ -1,7 +1,27 @@
-/* Верхний слой страницы постов пока */
-.postpage {
+html {
+  /* 1 */
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.7;
+    color: #444;
 
 }
+
+p {
+    margin-block-start: 1em;
+    margin-block-end: 0em;
+}
+
+ul {
+    display: block;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 30px;
+}
+
 
 
 .uk-navbar-container:not(.uk-navbar-transparent) {
@@ -35,6 +55,62 @@ h3 {
     font-family: 'Nunito', sans-serif;
     font-size: 1.75rem;
     color: #2165AD;
+}
+
+h4 {
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.25rem;
+    color: #1484F4;
+}
+
+h5 {
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.125rem;
+    color: #202020;
+}
+
+.leftcolumn {
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.125rem;
+    color: #202020;
+}
+
+.column {
+    padding-top: 1em;
+}
+
+.block-heading {
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.5rem;
+    color: #1484F4;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    clear: both;
+}
+
+.left {
+    float: left;
+    margin: 0 2.5em 1em 0;
+}
+
+.block-paragraph li::marker {
+    color: #1484F4;
+}
+
+.rightcolumn li::marker {
+    color: #1484F4;
+}
+
+.txtright li::marker {
+    color: #1484F4;
 }
 
 .left-list-text {
@@ -72,6 +148,7 @@ h3 {
 
 .overlay-link>p {
     margin-bottom: 0px;
+    margin-block-start: 0px;
 }
 
 .overlay-link:hover {
@@ -172,6 +249,38 @@ h3 {
     background-color: #1484F4;
     text-decoration: none;
 }
+
+.icon-button {
+    box-sizing: border-box;
+    width: 36px;
+    height: 36px !important;
+    min-height: 36px !important;
+    border-radius: 500px;
+    background: #fdfdfd;
+    color: #2165AD;
+    vertical-align: middle;
+    border: 1px solid #2165AD;
+    /* 1 */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.1s ease-in-out;
+    transition-property: color, border, background-color;
+}
+
+/* Hover */
+.icon-button:hover {
+    background-color: #f0f0f0;
+    border: 1px solid #1484F4;
+}
+
+/* OnClick + Active */
+.icon-button:active,
+{
+    background-color: #dfdfdf;
+    color: #666;
+}
+
 
 
 /* Tablet landscape and bigger */
