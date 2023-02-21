@@ -1,0 +1,53 @@
+{% extends "internalbase.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block lcolumn %}
+<!-- Left column -->
+<div>
+    <h4>Сопутствующие материалы:</h4>
+    {% for project in projectlist %}
+        {% with project=project.specific %}
+            <p class="left-list-text uk-margin-small-top uk-margin-small-bottom">
+                <a class="left-list-link" href="{% pageurl project %}">{{ project.title }}</a>
+            </p>
+            <p class="li-divider uk-margin-remove"></p>
+        {% endwith %}
+    {% endfor %}
+
+
+</div>
+{% endblock %}
+
+{% block rcolumn %}
+<h3>Page.title</h3>
+
+<form action="{% url 'search' %}" method="get">
+    <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+    <input type="submit" value="Search" class="button">
+</form>
+
+{% if search_results %}
+<ul>
+    {% for result in search_results %}
+    <li>
+        <h5><a href="{% pageurl result %}">{{ result }}</a></h5>
+        {% if result.search_description %}
+        {{ result.search_description }}
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+{% if search_results.has_previous %}
+<a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">Previous</a>
+{% endif %}
+
+{% if search_results.has_next %}
+<a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">Next</a>
+{% endif %}
+{% elif search_query %}
+No results found
+{% endif %}
+
+
+{% endblock %}

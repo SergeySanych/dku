@@ -66,6 +66,7 @@ class MenuPage(Page):
     menupage_intro = RichTextField(blank=True)
     menupage_vitrina = models.BooleanField(verbose_name="Показывать витрину", default=False)
     menupage_left = models.BooleanField(verbose_name="Показывать слева", default=False)
+    menupage_slider = models.BooleanField(verbose_name="НЕ показывать слайдер сверху", default=False)
 
     class ColumnBlock(blocks.StructBlock):
         left = blocks.CharBlock()
@@ -92,6 +93,15 @@ class MenuPage(Page):
         ('htmlcode', blocks.RawHTMLBlock()),
     ], use_json_field=True, blank=True)
 
+    menupage_body_bottom = StreamField([
+        ('heading', blocks.CharBlock(form_classname="subtitle")),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+        ('leftheader', ColumnBlock()),
+        ('imageleft', ImageLeftBlock()),
+        ('htmlcode', blocks.RawHTMLBlock()),
+    ], use_json_field=True, blank=True)
+
     def main_image(self):
         gallery_item = self.menupage_gallery_images.first()
         if gallery_item:
@@ -102,7 +112,7 @@ class MenuPage(Page):
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
-        childrenpages = self.get_children().live().order_by('-first_published_at')
+        childrenpages = self.get_children().live().order_by('first_published_at')
 
         projectlist = ProjectPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())
 
@@ -131,12 +141,14 @@ class MenuPage(Page):
             [
                 FieldPanel('menupage_vitrina', heading='Показывать дочерние страницы как проекты'),
                 FieldPanel('menupage_left', heading='Показывать ссылки на дочерние страницы в левой колонке'),
+                FieldPanel('menupage_slider', heading='НЕ показывать слайдер'),
             ],
             heading="Отображение дочерних страниц",
         ),
         #встраиваем список категорий в отдельным блоком в страницу
         InlinePanel('workcategory_list', label="Категория контента"),
-        FieldPanel('menupage_body'),
+        FieldPanel('menupage_body', heading="Верхний блок контента"),
+        FieldPanel('menupage_body_bottom', heading="Нижний блок контента, после всего"),
         InlinePanel('menupage_gallery_images', label="Фото галерея"),
     ]
 

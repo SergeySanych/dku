@@ -10,6 +10,19 @@ from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
 
+class ProjectSearch(Page):
+
+    def get_context(self, request):
+        # Update context to include only published posts, ordered by reverse-chron
+        context = super().get_context(request)
+        projectlist = ProjectPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())
+        context['projectlist'] = projectlist
+
+        return context
+
+    class Meta:
+        verbose_name = "Страница поиска"
+
 class WorkCategoryList(Orderable, models.Model):
     projectpage = ParentalKey('projects.ProjectPage', on_delete=models.CASCADE, related_name='workcategorylist')
     workcategoryitem = models.ForeignKey('menuitem.WorkCategory', on_delete=models.CASCADE, related_name='+')

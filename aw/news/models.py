@@ -11,8 +11,10 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 from wagtail.search.backends.database.postgres.postgres import PostgresSearchQueryCompiler
-
+from projects.models import ProjectPage
 # Partial search bug fix
+
+
 PostgresSearchQueryCompiler.LAST_TERM_IS_PREFIX = True
 
 
@@ -55,7 +57,7 @@ class NewsPage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        context['newspages'] = self.get_children()
+        context['newspages'] = ProjectPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())
         return context
 
     search_fields = Page.search_fields + [

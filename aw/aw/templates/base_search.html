@@ -51,18 +51,8 @@
         <div>
             <nav class="uk-navbar-container" uk-navbar style="position: relative; z-index: 980;">
                 <div class="uk-navbar-center">
-                    {% if page %}
-                        {% for translation in page.get_translations.live %}
 
-                            {% get_language_info for translation.locale.language_code as lang %}
-                                {% if lang.code == "ru" %}
-                                    {% flat_menu 'fm_en' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
-                                {% endif %}
-                                {% if lang.code == "en" %}
-                                    {% flat_menu 'fm' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
-                                {% endif %}
-                        {% endfor %}
-                    {% endif %}
+                    {% flat_menu 'fm' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
 
                 </div>
             </nav>
@@ -73,6 +63,7 @@
     <div id="offcanvas-nav-primary" uk-offcanvas="overlay: true">
         <div class="uk-offcanvas-bar uk-flex uk-flex-column">
             <button class="uk-offcanvas-close" type="button" uk-close></button>
+            <h3>Меню</h3>
             {% flat_menu 'fm' max_levels=3 template="modal_menu.html" sub_menu_templates="modal_menu_2.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
         </div>
     </div>
@@ -116,25 +107,26 @@
             <div class="uk-container uk-container-large ">
                 <div class="uk-grid-medium uk-margin-medium-bottom uk-margin-medium-top" uk-grid>
                     <div class="uk-width-1-1 uk-width-1-4@l uk-width-1-3@m whitetext nunito-font">
-
-                        <p class="uk-margin-small-bottom">
-                            <b> По всем вопросам сотрудничества обращайтесь по эл.адресу:</b><br> <a class="overlay-link" href="mailto:nri@dku.kz">nri@dku.kz</a>
+                        <p>
+                            <b>По всем вопросам поступления:</b>
                         </p>
-                        <p class="uk-margin-small-bottom"><b>Приемная комиссия:</b><br>
-                        <ul>
-
+                        <p>
+                            Отправляйте ваши заявки и вопросы на <a class="overlay-link" href="mailto:nri@dku.kz">nri@dku.kz</a>
+                        </p>
+                        <ul >
+                            <b>Приемная комиссия:</b>
                             <li>+7 727 355 05 51 (вн. 229)</li>
                             <li><a class="overlay-link" href="mailto:admissions@dku.kz">admissions@dku.kz</a></li>
-                        </ul></p>
+                        </ul>
                         <div>
-                            <div class="uk-margin-small-bottom">
+                            <div class="uk-margin-small">
                                 <b>Присоединяйтесь к нам в соц.сетях:</b>
                             </div>
                             <a href="https://www.instagram.com/dku.nri/"  target="_blank" class="uk-icon-button uk-margin-small-right" uk-icon="instagram"></a>
                             <a href="https://www.facebook.com/NRIKGU/"  target="_blank" class="uk-icon-button  uk-margin-small-right" uk-icon="facebook"></a>
                             <a href="https://www.youtube.com/channel/UCJXUcvltn0ll_ESWyV94MLg/"  target="_blank" class="uk-icon-button" uk-icon="youtube"></a>
                         </div>
-                        <div class="uk-margin-small">
+                        <div class="uk-margin-medium">
                             <button class="uk-button uk-button-send nunito-font">Отправить сообщение</button>
                         </div>
                     </div>

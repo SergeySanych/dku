@@ -1,5 +1,5 @@
 {% load menu_tags i18n wagtailcore_tags %}
-<ul class="uk-navbar-nav" uk-grid>
+<ul class="uk-navbar-nav uk-grid-small" uk-grid>
 
     <li><a href="/ru/" uk-icon="icon: home"></a></li>
 
@@ -26,5 +26,7 @@
                 </a>
             {% endfor %}
         {% endif %}
+
     </li>
+    <li class="uk-flex uk-flex-middle"><a class="icon-button" href="/ru/search" uk-icon="icon: search"></a> </li>
 </ul>

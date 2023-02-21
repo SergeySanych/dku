@@ -34,6 +34,7 @@
 <div>
     <h3>{{ page.menupage_header }}</h3>
     <div class="uk-position-relative uk-visible-toggle uk-light uk-margin-small-bottom" tabindex="-1" uk-slideshow="ratio: 5:2">
+    {% if page.menupage_slider == False %}
         {% if page.main_image %}
         <ul class="uk-slideshow-items">
             {% for item in page.menupage_gallery_images.all %}
@@ -45,6 +46,7 @@
 
         </ul>
         {% endif %}
+   {% endif %}
 
         <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#"
            uk-slidenav-previous
@@ -59,30 +61,32 @@
 
 </div>
 <!-- Projects -->
-<div class="uk-section uk-section-default uk-section-xsmall">
-    <div class="uk-child-width-1-2" uk-grid>
-    {% with projects=page.menupage_projects.all %}
+
+{% with projects=page.menupage_projects.all %}
     {% if projects %}
-        {% for project in projects %}
-        <div>
-            <div class="uk-inline">
+        <div class="uk-section uk-section-default uk-section-xsmall">
+            <div class="uk-child-width-1-2" uk-grid>
+                {% for project in projects %}
+                <div>
+                    <div class="uk-inline">
 
-                    {% with project.main_image as main_image %}
-                        {% if main_image %}
-                        {% image main_image fill-500x330 %}
-                    {% endif %}
+                            {% with project.main_image as main_image %}
+                                {% if main_image %}
+                                {% image main_image fill-500x330 %}
+                            {% endif %}
 
-                <div class="uk-overlay uk-overlay-default uk-position-bottom  uk-flex uk-flex-middle uk-flex-center uk-text-center">
-                    <a class="overlay-link" href="{% pageurl project %}">{{ project.title }}</a>
+                        <div class="uk-overlay uk-overlay-default uk-position-bottom  uk-flex uk-flex-middle uk-flex-center uk-text-center">
+                            <a class="overlay-link" href="{% pageurl project %}">{{ project.title }}</a>
+                        </div>
+                        {% endwith %}
+                    </div>
                 </div>
-                {% endwith %}
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
     {% endif %}
-    {% endwith %}
-    </div>
-</div>
+{% endwith %}
+
 
 <!-- Childrens -->
 {% if page.menupage_vitrina %}
@@ -108,4 +112,5 @@
     </div>
 </div>
 {% endif %}
+{% include_block page.menupage_body_bottom %}
 {% endblock %}

@@ -1,16 +1,12 @@
-{% extends "base.html" %}
-
+{% extends "internalbase.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% block body_class %}template-blogpage{% endblock %}
-
-{% block content %}
+{% block lcolumn %}
 <!-- MainContent Two column -->
-<div class="uk-section uk-section-default uk-section-xsmall">
-    <div class="uk-container uk-container-large">
-        <div class="uk-grid-medium" uk-grid>
+
             <!-- Left column post list -->
-            <div class="uk-width-1-4 uk-margin-medium-top">
+            <div >
+                <h4>Сопутствующие материалы:</h4>
                 {% for newspage in newspages %}
                 <p class="left-list-text uk-margin-small-top uk-margin-small-bottom">
                     <a class="left-list-link" href="{% pageurl newspage %}">{{ newspage.title }}</a>
@@ -18,12 +14,15 @@
                 <p class="li-divider uk-margin-remove"></p>
                 {% endfor %}
             </div>
+{% endblock %}
+
+{% block rcolumn %}
+
             <!-- Right column post content and projects -->
-            <div class=" uk-width-3-4">
-                <!-- Post -->
+
                 <div>
-                    <h3>{{ page.title }}</h3>
-                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="ratio: 5:2">
+                    <h3>{{ page.intro }}</h3>
+                    <div class="uk-margin-medium-bottom uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="ratio: 5:2">
                         <ul class="uk-slideshow-items">
                             {% for item in page.gallery_images.all %}
                             <li>
@@ -42,61 +41,10 @@
 
                     </div>
 
-                    <div class="intro">{{ page.intro }}</div>
                     {{ page.body|richtext }}
-                    <p class="meta">{{ page.date }}</p>
-                    {% with categories=page.categories.all %}
-                    {% if categories %}
-                    <h3>Posted in:</h3>
-                    <ul>
-                        {% for category in categories %}
-                        <li style="display: inline">
-                            {% image category.icon fill-32x32 style="vertical-align: middle" %}
-                            {{ category.name }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                    {% endwith %}
-
-                    {% if page.tags.all.count %}
-                    <div class="tags">
-                        <h3>Tags</h3>
-                        {% for tag in page.tags.all %}
-                        <a href="{% slugurl 'tags' %}?tag={{ tag }}">
-                            <button type="button">{{ tag }}</button>
-                        </a>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-
-                    <p><a href="{{ page.get_parent.url }}">Return to all news</a></p>
+                    <p class="meta"><b>{{ page.date }}</b></p>
 
                 </div>
-                <!-- Projects -->
-                <div class="uk-child-width-1-2" uk-grid>
-
-                    {% for news in newspages %}
-                    <div>
-                        <div class="uk-inline">
-                            {% with news=news.specific %}
-                            {% with news.main_image as main_image %}
-                            {% if main_image %}
-                            {% image main_image fill-500x330 %}
-                            {% endif %}
-                            {% endwith %}
-                            <div class="uk-overlay uk-overlay-default uk-position-bottom  uk-flex uk-flex-middle uk-flex-center uk-text-center">
-                                <a class="overlay-link" href="{% pageurl news %}">{{ news.title }}</a>
-                            </div>
-                            {% endwith %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 {% endblock %}
