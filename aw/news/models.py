@@ -6,12 +6,14 @@ from taggit.models import TaggedItemBase
 from wagtail.models import Page, Orderable, Locale
 from wagtail.fields import RichTextField, StreamField
 from wagtail import blocks
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, FieldRowPanel
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 from wagtail.search.backends.database.postgres.postgres import PostgresSearchQueryCompiler
 from projects.models import ProjectPage
+from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
+
 # Partial search bug fix
 
 
@@ -274,3 +276,26 @@ class InternalPage(Page):
         PageChooserPanel('related_pages'),
         FieldPanel('body'),
     ]
+
+
+class FormField(AbstractFormField):
+    page = ParentalKey('FormPage', on_delete=models.CASCADE, related_name='form_fields')
+
+
+class FormPage(AbstractEmailForm):
+    intro = RichTextField(blank=True)
+    thank_you_text = RichTextField(blank=True)
+
+    content_panels = AbstractEmailForm.content_panels + [
+        FieldPanel('intro'),
+        InlinePanel('form_fields', label="Form fields"),
+        FieldPanel('thank_you_text'),
+        MultiFieldPanel([
+            FieldRowPanel([
+                FieldPanel('from_address', classname="col6"),
+                FieldPanel('to_address', classname="col6"),
+            ]),
+            FieldPanel('subject'),
+        ], "Email"),
+    ]
+
