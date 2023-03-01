@@ -1,7 +1,14 @@
 {% load menu_tags i18n wagtailcore_tags %}
 <ul class="uk-navbar-nav uk-grid-small" uk-grid>
 
-    <li><a href="/ru/" uk-icon="icon: home"></a></li>
+    <li>
+            {% if LANGUAGE_CODE == "ru" %}
+                <a href="/ru/" uk-icon="icon: home"></a>
+            {% else %}
+                <a href="/en/" uk-icon="icon: home"></a>
+            {% endif %}
+
+    </li>
 
 {% for item in menu_items %}
     <li class="uk-width-auto@m uk-visible@l">
@@ -17,7 +24,9 @@
     </li>
 {% endfor %}
     <li><a class="uk-navbar-toggle" uk-navbar-toggle-icon uk-toggle="target: #offcanvas-nav-primary" href="#"></a></li>
+
     <li class="uk-flex uk-flex-middle">
+        <!-- Переключение языков -->
         {% if page %}
             {% for translation in page.get_translations.live %}
                 {% get_language_info for translation.locale.language_code as lang %}
@@ -25,8 +34,27 @@
                     {{ lang.code }}
                 </a>
             {% endfor %}
+        {% else %}
+            {% if LANGUAGE_CODE == "ru" %}
+                <a href="/en/search" rel="alternate" hreflang="{{ LANGUAGE_CODE }}" class="icon-button">
+                    en
+                </a>
+            {% else %}
+                <a href="/ru/search" rel="alternate" hreflang="{{ LANGUAGE_CODE }}" class="icon-button">
+                    ru
+                </a>
+
+            {% endif %}
         {% endif %}
 
     </li>
-    <li class="uk-flex uk-flex-middle"><a class="icon-button" href="/ru/search" uk-icon="icon: search"></a> </li>
+    <li class="uk-flex uk-flex-middle">
+        <!-- Кнопка поиск -->
+            {% if LANGUAGE_CODE == "ru" %}
+                <a class="icon-button" href="/ru/search" uk-icon="icon: search"></a>
+            {% else %}
+                <a class="icon-button" href="/en/search" uk-icon="icon: search"></a>
+            {% endif %}
+
+    </li>
 </ul>

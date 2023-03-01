@@ -51,19 +51,11 @@
         <div>
             <nav class="uk-navbar-container" uk-navbar style="position: relative; z-index: 980;">
                 <div class="uk-navbar-center">
-                    {% if page %}
-                        {% for translation in page.get_translations.live %}
-
-                            {% get_language_info for translation.locale.language_code as lang %}
-                                {% if lang.code == "ru" %}
-                                    {% flat_menu 'fm_en' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
-                                {% endif %}
-                                {% if lang.code == "en" %}
-                                    {% flat_menu 'fm' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
-                                {% endif %}
-                        {% endfor %}
+                    {% if LANGUAGE_CODE == "ru" %}
+                        {% flat_menu 'fm' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+                    {% else %}
+                        {% flat_menu 'fm_en' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
                     {% endif %}
-
                 </div>
             </nav>
         </div>
@@ -73,10 +65,15 @@
     <div id="offcanvas-nav-primary" uk-offcanvas="overlay: true">
         <div class="uk-offcanvas-bar uk-flex uk-flex-column">
             <button class="uk-offcanvas-close" type="button" uk-close></button>
-            {% flat_menu 'fm' max_levels=3 template="modal_menu.html" sub_menu_templates="modal_menu_2.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+            {% if LANGUAGE_CODE == "ru" %}
+                {% flat_menu 'fm' max_levels=3 template="modal_menu.html" sub_menu_templates="modal_menu_2.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+            {% else %}
+                {% flat_menu 'fm_en' max_levels=3 template="modal_menu.html" sub_menu_templates="modal_menu_2.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+            {% endif %}
+
+
         </div>
     </div>
-
 
  <!-- Header -->
     <div class="uk-section uk-section-default uk-section-xsmall">

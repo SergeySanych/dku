@@ -14,7 +14,19 @@
         {% endwith %}
     {% endfor %}
 {% endif %}
-    <h4>Сопутствующие материалы:</h4>
+    <h4>Похожие материалы:</h4>
+    <!-- Страницы   -->
+{% if page.menupage_context == False %}
+    {% for project in menuitemsfilter %}
+        {% with project=project.specific %}
+            <p class="left-list-text uk-margin-small-top uk-margin-small-bottom">
+                <a class="left-list-link" href="{% pageurl project %}">{{ project.title }}</a>
+            </p>
+            <p class="li-divider uk-margin-remove"></p>
+        {% endwith %}
+    {% endfor %}
+
+    <!-- Проекты   -->
     {% for project in projectlist %}
         {% with project=project.specific %}
             <p class="left-list-text uk-margin-small-top uk-margin-small-bottom">
@@ -23,6 +35,7 @@
             <p class="li-divider uk-margin-remove"></p>
         {% endwith %}
     {% endfor %}
+{% endif %}
 
 
 </div>
@@ -113,4 +126,5 @@
 </div>
 {% endif %}
 {% include_block page.menupage_body_bottom %}
+
 {% endblock %}

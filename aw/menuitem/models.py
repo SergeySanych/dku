@@ -4,13 +4,13 @@ from wagtail.models import Page, Orderable, Locale
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from wagtail.fields import RichTextField, StreamField
 from wagtail import blocks
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel, FieldRowPanel, PageChooserPanel
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
-from projects.models import ProjectPage
+from projects.models import ProjectPage, WorkCategoryList
 
 
 @register_snippet
@@ -67,6 +67,7 @@ class MenuPage(Page):
     menupage_vitrina = models.BooleanField(verbose_name="Показывать витрину", default=False)
     menupage_left = models.BooleanField(verbose_name="Показывать слева", default=False)
     menupage_slider = models.BooleanField(verbose_name="НЕ показывать слайдер сверху", default=False)
+    menupage_context = models.BooleanField(verbose_name="НЕ показывать результаты контекстного поиска", default=False)
 
     class ColumnBlock(blocks.StructBlock):
         left = blocks.CharBlock()
@@ -112,44 +113,67 @@ class MenuPage(Page):
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
-        childrenpages = self.get_children().live().order_by('first_published_at')
+        #Страницы из меню и проектов связанные с текущей
+        pagecategory = self.workcategory_list.all()
+        if pagecategory:
+            if pagecategory.count() > 1:
+                menuitemsfilter = MenuPage.objects.live().filter(workcategory_list__workcategoryitem=pagecategory[0].workcategoryitem) | MenuPage.objects.live().filter(workcategory_list__workcategoryitem=pagecategory[1].workcategoryitem)
+                projectlist = ProjectPage.objects.live().filter(workcategorylist__workcategoryitem=pagecategory[0].workcategoryitem) | ProjectPage.objects.live().filter(workcategorylist__workcategoryitem=pagecategory[1].workcategoryitem)
+            else:
+                menuitemsfilter = MenuPage.objects.live().filter(workcategory_list__workcategoryitem=pagecategory[0].workcategoryitem)
+                projectlist = ProjectPage.objects.live().filter(workcategorylist__workcategoryitem=pagecategory[0].workcategoryitem)
+            menuitemsfilter = menuitemsfilter.filter(locale=Locale.get_active())
+            menuitemsfilter = menuitemsfilter.distinct()
+            menuitemsfilter = menuitemsfilter.exclude(id=self.id)
+            projectlist = projectlist.filter(locale=Locale.get_active())
+            projectlist = projectlist.distinct()
 
-        projectlist = ProjectPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())
 
+        childrenpages = self.get_children().all().live().order_by('first_published_at')
+
+        #projectlist = ProjectPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())
+        context['pagecategory'] = pagecategory
         context['childrenpages'] = childrenpages
         context['projectlist'] = projectlist
+        context['menuitemsfilter'] = menuitemsfilter
         return context
 
     search_fields = Page.search_fields + [
         index.SearchField('menupage_header', partial_match=True),
         index.SearchField('menupage_body', partial_match=True),
+        index.SearchField('menupage_body_bottom', partial_match=True),
     ]
-
-
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
                 FieldPanel('menupage_header', heading='Расширенный заголовок - показывается на странице, заголовок в меню'),
                 FieldPanel('menupage_date'),
-                FieldPanel('menupage_avtor', heading='Авторы публикации или участники проекта'),
-                FieldPanel('menupage_projects', heading='Проекты связанные с этой страницей'),
             ],
             heading="Общая информация о странице",
         ),
-        MultiFieldPanel(
-            [
-                FieldPanel('menupage_vitrina', heading='Показывать дочерние страницы как проекты'),
-                FieldPanel('menupage_left', heading='Показывать ссылки на дочерние страницы в левой колонке'),
-                FieldPanel('menupage_slider', heading='НЕ показывать слайдер'),
-            ],
-            heading="Отображение дочерних страниц",
-        ),
+
         #встраиваем список категорий в отдельным блоком в страницу
         InlinePanel('workcategory_list', label="Категория контента"),
         FieldPanel('menupage_body', heading="Верхний блок контента"),
         FieldPanel('menupage_body_bottom', heading="Нижний блок контента, после всего"),
         InlinePanel('menupage_gallery_images', label="Фото галерея"),
+        FieldRowPanel(
+            [
+                FieldPanel('menupage_vitrina', heading='Показывать дочерние страницы как проекты'),
+                FieldPanel('menupage_left', heading='Показывать ссылки на дочерние страницы в левой колонке'),
+                FieldPanel('menupage_slider', heading='НЕ показывать слайдер'),
+                FieldPanel('menupage_context', heading='НЕ показывать результаты контекстного поиска'),
+            ],
+            heading="Отображение элементов страницы",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel('menupage_avtor', heading='Авторы публикации или участники проекта'),
+                FieldPanel('menupage_projects', heading='Проекты связанные с этой страницей'),
+            ],
+            heading="Информация о связанных страницах",
+        ),
     ]
 
     class Meta:

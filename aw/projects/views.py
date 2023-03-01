@@ -1,10 +1,11 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.template.response import TemplateResponse
+
 from wagtail.models import Page
 from wagtail.search.models import Query
 
 
-def search(request):
+def filter(request):
     search_query = request.GET.get("query", None)
     page = request.GET.get("page", 1)
 
@@ -35,3 +36,7 @@ def search(request):
             "search_results": search_results,
         },
     )
+
+
+
+
