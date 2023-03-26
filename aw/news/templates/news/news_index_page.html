@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags modal_tags %}
 
 {% block body_class %}template-newsindexpage{% endblock %}
 
@@ -23,5 +23,6 @@
         {{ post.body|richtext }}
     {% endwith %}
 {% endfor %}
+
 
 {% endblock %}

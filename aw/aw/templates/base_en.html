@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailuserbar menu_tags wagtailimages_tags i18n %}
+{% load static wagtailcore_tags wagtailuserbar menu_tags wagtailimages_tags i18n modal_tags %}
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -127,12 +127,12 @@
                             <div class="uk-margin-small-bottom">
                                 <b>Join us on social networks:</b>
                             </div>
-                            <a href="https://www.instagram.com/dku.nri/"  target="_blank" class="uk-icon-button uk-margin-small-right" uk-icon="instagram"></a>
-                            <a href="https://www.facebook.com/NRIKGU/"  target="_blank" class="uk-icon-button  uk-margin-small-right" uk-icon="facebook"></a>
+                            <a href="https://www.instagram.com/dku.crs/"  target="_blank" class="uk-icon-button uk-margin-small-right" uk-icon="instagram"></a>
+                            <a href="https://www.facebook.com/dkucrs"  target="_blank" class="uk-icon-button  uk-margin-small-right" uk-icon="facebook"></a>
                             <a href="https://www.youtube.com/channel/UCJXUcvltn0ll_ESWyV94MLg/"  target="_blank" class="uk-icon-button" uk-icon="youtube"></a>
                         </div>
                         <div class="uk-margin-small">
-                            <button class="uk-button uk-button-send nunito-font">Send a message</button>
+                             {% form_modal %}
                         </div>
                      </div>
                     <div class="uk-width-1-1 uk-width-3-4@l uk-width-2-3@m ">

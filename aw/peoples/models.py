@@ -38,6 +38,11 @@ class PeoplesPage(Page):
         index.SearchField('full_discription'),
     ]
 
+    def serve(self, request):
+        # Проверяем флаги отправки сообщения
+        from news.models import messageshowcheck
+        return super().serve(messageshowcheck(request))
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('full_name'),
@@ -56,6 +61,11 @@ class PeoplesTeamPage(Page):
         FieldPanel('team_discription'),
     ]
 
+    def serve(self, request):
+        # Проверяем флаги отправки сообщения
+        from news.models import messageshowcheck
+        return super().serve(messageshowcheck(request))
+
     def get_context(self, request):
         teamspages = PeoplesPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())
         context = super().get_context(request)
@@ -69,6 +79,11 @@ class PeoplesResearcherPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel('researcher_description'),
     ]
+
+    def serve(self, request):
+        # Проверяем флаги отправки сообщения
+        from news.models import messageshowcheck
+        return super().serve(messageshowcheck(request))
 
     def get_context(self, request):
         researcherpages = PeoplesPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())

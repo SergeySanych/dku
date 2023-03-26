@@ -45,7 +45,8 @@
 <!-- Post -->
 <div>
     <h3>{{ page.project_header }}</h3>
-    <div class="uk-position-relative uk-visible-toggle uk-light uk-margin-small-bottom" tabindex="-1" uk-slideshow="ratio: 5:2">
+    {% if page.project_slider == False %}
+        <div class="uk-position-relative uk-visible-toggle uk-light uk-margin-small-bottom" tabindex="-1" uk-slideshow="ratio: 5:2">
         {% if page.main_image %}
         <ul class="uk-slideshow-items">
             {% for item in page.project_gallery_images.all %}
@@ -65,6 +66,7 @@
            uk-slideshow-item="next"></a>
 
     </div>
+    {% endif %}
 
     <div class="intro">{{ page.project_intro|richtext }}</div>
     {% include_block page.project_body %}
@@ -96,7 +98,7 @@
     {% endif %}
 {% endwith %}
 <!-- Childrens -->
-{% if page.projectpage_vitrina %}
+{% if page.project_vitrina %}
 <div class="uk-section uk-section-default uk-section-xsmall">
     <div class="uk-child-width-1-2" uk-grid>
 
@@ -119,5 +121,5 @@
     </div>
 </div>
 {% endif %}
-{% include_block page.menupage_body_bottom %}
+{% include_block page.project_body_bottom %}
 {% endblock %}

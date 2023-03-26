@@ -1,0 +1,20 @@
+{% load wagtailimages_tags %}
+
+
+<div class="imgcenter">
+    <div class="uk-grid-small uk-grid">
+        <div class="uk-width-1-1 uk-text-center">
+
+            <div class="imgleft">
+                {% if value.imgurl %}
+                    <a href="{{ value.imgurl }}">{% image value.imgcenter max-800x400 %}</a>
+                {% else %}
+                    {% image value.imgcenter max-800x400 %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="uk-width-1-1 uk-text-center">
+            <div class="txtcenter">{{ value.txtcenter }}</div>
+        </div>
+    </div>
+</div>

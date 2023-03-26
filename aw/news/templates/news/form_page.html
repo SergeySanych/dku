@@ -1,15 +1,38 @@
+{% extends "base.html" %}
 {% load wagtailcore_tags %}
-<html>
-    <head>
-        <title>{{ page.title }}</title>
-    </head>
-    <body>
-        <h1>{{ page.title }}</h1>
-        {{ page.intro|richtext }}
-        <form action="{% pageurl page %}" method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit">
-        </form>
-    </body>
-</html>
+{% block content %}
+<div class="uk-section uk-section-default uk-section-xsmall">
+    <div class="uk-container uk-container-large">
+        <div class="uk-hidden">
+            <form action="{% pageurl page %}" method="POST">
+                {% csrf_token %}
+                <div class="uk-margin" aria-required="true">
+                    <input class="uk-input" type="text" name="u0418u043cu044f" maxlength="255" required=""
+                           id="id_u0418u043cu044f"
+                           placeholder="Input" aria-label="Ваше имя">
+                </div>
+
+                <div class="uk-margin" aria-required="true">
+    <textarea class="uk-textarea" name="u0422u0435u043au0441u0442_u0441u043eu043eu0431u0449u0435u043du0438u044f"
+              cols="40"
+              rows="10" required=""
+              id="id_u0422u0435u043au0441u0442_u0441u043eu043eu0431u0449u0435u043du0438u044f" placeholder="Textarea"
+              aria-label="Текст вашего сообщения"></textarea>
+                </div>
+
+                <div class="uk-margin" aria-required="true">
+
+
+                    <input class="uk-input" type="email" name="e_mail" required="" id="id_e_mail" placeholder="Input"
+                           aria-label="Ваш e-mail">
+
+                </div>
+
+
+                <input type="submit">
+            </form>
+        </div>
+        <h4>Ошибка отправки сообщения! Проверьте нет ли опечаток в поле e-mail!</h4>
+    </div>
+</div>
+{% endblock %}

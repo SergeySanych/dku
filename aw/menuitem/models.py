@@ -83,7 +83,16 @@ class MenuPage(Page):
 
         class Meta:
             template = 'imgleft.html'
-            icon = 'user'
+            icon = 'image'
+
+    class ImageCenterBlock(blocks.StructBlock):
+        imgcenter = ImageChooserBlock()
+        imgurl = blocks.URLBlock(required=False)
+        txtcenter = blocks.RichTextBlock(required=False)
+
+        class Meta:
+            template = 'imgcenter.html'
+            icon = 'image'
 
     menupage_body = StreamField([
         ('heading', blocks.CharBlock(form_classname="subtitle")),
@@ -91,6 +100,7 @@ class MenuPage(Page):
         ('image', ImageChooserBlock()),
         ('leftheader', ColumnBlock()),
         ('imageleft', ImageLeftBlock()),
+        ('imagecenter', ImageCenterBlock()),
         ('htmlcode', blocks.RawHTMLBlock()),
     ], use_json_field=True, blank=True)
 
@@ -110,6 +120,11 @@ class MenuPage(Page):
         else:
             return None
 
+    def serve(self, request):
+        # Проверяем флаги отправки сообщения
+        from news.models import messageshowcheck
+        return super().serve(messageshowcheck(request))
+
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
@@ -127,6 +142,9 @@ class MenuPage(Page):
             menuitemsfilter = menuitemsfilter.exclude(id=self.id)
             projectlist = projectlist.filter(locale=Locale.get_active())
             projectlist = projectlist.distinct()
+            #заполняем если есть категории проектов
+            context['projectlist'] = projectlist
+            context['menuitemsfilter'] = menuitemsfilter
 
 
         childrenpages = self.get_children().all().live().order_by('first_published_at')
@@ -134,8 +152,7 @@ class MenuPage(Page):
         #projectlist = ProjectPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())
         context['pagecategory'] = pagecategory
         context['childrenpages'] = childrenpages
-        context['projectlist'] = projectlist
-        context['menuitemsfilter'] = menuitemsfilter
+
         return context
 
     search_fields = Page.search_fields + [

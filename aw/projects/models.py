@@ -9,6 +9,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.search import index
 #from menuitem.models import MenuPage импорт в гет контект гдето 105 строка
 
+
 class ProjectSearch(RoutablePageMixin, Page):
 #Не используется
     def get_context(self, request):
@@ -66,7 +67,16 @@ class ProjectPage(Page):
 
         class Meta:
             template = 'imgleft.html'
-            icon = 'user'
+            icon = 'image'
+
+    class ImageCenterBlock(blocks.StructBlock):
+        imgcenter = ImageChooserBlock()
+        imgurl = blocks.URLBlock(required=False)
+        txtcenter = blocks.RichTextBlock(required=False)
+
+        class Meta:
+            template = 'imgcenter.html'
+            icon = 'image'
 
     project_body = StreamField([
         ('heading', blocks.CharBlock(form_classname="subtitle")),
@@ -74,6 +84,7 @@ class ProjectPage(Page):
         ('image', ImageChooserBlock()),
         ('leftheader', ColumnBlock()),
         ('imageleft', ImageLeftBlock()),
+        ('imagecenter', ImageCenterBlock()),
         ('htmlcode', blocks.RawHTMLBlock()),
     ], use_json_field=True, blank=True)
 
@@ -93,6 +104,11 @@ class ProjectPage(Page):
         else:
             return None
 
+    def serve(self, request):
+        # Проверяем флаги отправки сообщения
+        from news.models import messageshowcheck
+        return super().serve(messageshowcheck(request))
+
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
@@ -111,13 +127,14 @@ class ProjectPage(Page):
             projectlist = projectlist.filter(locale=Locale.get_active())
             projectlist = projectlist.distinct()
             projectlist = projectlist.exclude(id=self.id)
+            context['projectlist'] = projectlist
+            context['menuitemsfilter'] = menuitemsfilter
       
         childrenpages = self.get_children().live().order_by('-first_published_at')
-
+        print(childrenpages)
         context['pagecategory'] = pagecategory
         context['childrenpages'] = childrenpages
-        context['projectlist'] = projectlist
-        context['menuitemsfilter'] = menuitemsfilter
+
 
         return context
 

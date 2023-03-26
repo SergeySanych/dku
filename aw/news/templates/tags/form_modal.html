@@ -1,0 +1,63 @@
+{% load wagtailcore_tags i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% if request.session.form_page_success %}
+
+    {% if LANGUAGE_CODE == "ru" %}
+         <script>
+                   UIkit.modal.alert('Спасибо за сообщение.').then(function () {
+                       console.log('Alert closed.')
+                   });
+         </script>
+    {% else %}
+     <script>
+               UIkit.modal.alert('Thank you for message').then(function () {
+                   console.log('Alert closed.')
+               });
+     </script>
+    {% endif %}
+{% endif %}
+
+
+
+{% if form %}
+<!-- This is a button toggling the modal with the default close button -->
+<button class="uk-button uk-button-send nunito-font uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default">
+    {% if LANGUAGE_CODE == "ru" %}Отправить сообщение{% else %}Send message{% endif %}
+</button>
+
+<!-- This is the modal with the default close button -->
+<div id="modal-close-default" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <form action="{% pageurl form_page %}" method="POST">
+            {% csrf_token %}
+            <div class="uk-margin" aria-required="true">
+                <input class="uk-input" type="text" name="u0418u043cu044f" maxlength="255" required=""
+                       id="id_u0418u043cu044f" placeholder="{% if LANGUAGE_CODE == "ru" %}Ваше имя{% else %}Name{% endif %}" aria-label="Input">
+            </div>
+
+            <div class="uk-margin" aria-required="true">
+                <textarea class="uk-textarea" name="u0422u0435u043au0441u0442_u0441u043eu043eu0431u0449u0435u043du0438u044f"
+              cols="40"
+              rows="10" required=""
+              id="id_u0422u0435u043au0441u0442_u0441u043eu043eu0431u0449u0435u043du0438u044f" placeholder="{% if LANGUAGE_CODE == "ru" %}Текст сообщения{% else %}Message{% endif %}"
+              aria-label="Textarea"></textarea>
+            </div>
+
+            <div class="uk-margin" aria-required="true">
+
+
+                <input class="uk-input" type="email" name="e_mail" required="" id="id_e_mail" placeholder="e-mail"
+                       aria-label="Input">
+
+            </div>
+
+            <input name="source-page-id" type="hidden" value="{% if page.pk %}{{ page.pk }}{% else %}0{% endif %}">
+            <input class="uk-button uk-button-send nunito-font" type="submit" value="{% if LANGUAGE_CODE == "ru" %}Отправить сообщение{% else %}Send message{% endif %}">
+        </form>
+
+
+    </div>
+</div>
+
+{% endif %}

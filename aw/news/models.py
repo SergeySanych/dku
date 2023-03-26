@@ -1,5 +1,6 @@
 from django.db import models
 from django import forms
+from django.shortcuts import redirect
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
@@ -7,28 +8,53 @@ from wagtail.models import Page, Orderable, Locale
 from wagtail.fields import RichTextField, StreamField
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel, FieldRowPanel
+from wagtail.admin.edit_handlers import PageChooserPanel
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 from wagtail.search.backends.database.postgres.postgres import PostgresSearchQueryCompiler
 from projects.models import ProjectPage
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
+from wagtail.contrib.settings.models import BaseSetting, register_setting
 
 # Partial search bug fix
-
-
 PostgresSearchQueryCompiler.LAST_TERM_IS_PREFIX = True
+
+
+def messageshowcheck(request):
+    """
+
+    :type request: object
+    """
+    # Функция проверяет флаги перехода на после отправки сообщения с сайта.
+    print("Serve!!!")
+    try:
+        if request.session['form_page_success'] == True & request.session['message_show'] == True:
+            request.session['form_page_success'] = False
+            return request
+        else:
+            request.session['message_show'] = True
+            return request
+    except KeyError:
+        print("KeyError!!!")
+        pass
+    return request
 
 
 class NewsIndexPage(Page):
     intro = RichTextField(blank=True)
 
     def get_context(self, request):
+        print("get_context!!!")
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
         newspages = self.get_children().live().order_by('-first_published_at')
         context['newspages'] = newspages
         return context
+
+    def serve(self, request):
+        # Проверяем флаги отправки сообщения
+        return super().serve(messageshowcheck(request))
 
     content_panels = Page.content_panels + [
         FieldPanel('intro')
@@ -57,9 +83,14 @@ class NewsPage(Page):
         else:
             return None
 
+    def serve(self, request):
+        # Проверяем флаги отправки сообщения
+        return super().serve(messageshowcheck(request))
+
     def get_context(self, request):
         context = super().get_context(request)
-        context['newspages'] = ProjectPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())
+        context['newspages'] = ProjectPage.objects.all().live().order_by('first_published_at').filter(
+            locale=Locale.get_active())
         return context
 
     search_fields = Page.search_fields + [
@@ -135,10 +166,15 @@ class MainPage(Page):
 
     components = ParentalManyToManyField('news.ComponentsList', blank=True)
 
+    #Фунция выбирает англйиский или русский шаблон грузить
     def get_template(self, request, *args, **kwargs):
         if self.locale.language_code == "en":
             return 'news/main_page_en.html'
         return 'news/main_page.html'
+
+    def serve(self, request):
+        # Проверяем флаги отправки сообщения
+        return super().serve(messageshowcheck(request))
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
@@ -242,7 +278,7 @@ class ComponentsList(models.Model):
         verbose_name_plural = 'Key components list'
 
 
-# InternalPage
+# InternalPage удалиьть когда уберу страницы связанные с ней
 class InternalPage(Page):
     class ColumnBlock(blocks.StructBlock):
         left = blocks.CharBlock()
@@ -278,10 +314,30 @@ class InternalPage(Page):
     ]
 
 
+@register_setting
+class MyAppSettings(BaseSetting):
+    # relationship to a single form page (one per site)
+    modal_form_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Modal Form'
+    )
+
+    panels = [
+        # note the kwarg - this will only allow form pages to be selected (replace base with your app)
+        PageChooserPanel('modal_form_page', page_type='news.FormPage')
+    ]
+
+
+#поля для формы отправки сообщения
 class FormField(AbstractFormField):
     page = ParentalKey('FormPage', on_delete=models.CASCADE, related_name='form_fields')
 
 
+#Страница формы сообщения
 class FormPage(AbstractEmailForm):
     intro = RichTextField(blank=True)
     thank_you_text = RichTextField(blank=True)
@@ -299,3 +355,25 @@ class FormPage(AbstractEmailForm):
         ], "Email"),
     ]
 
+    def render_landing_page(self, request, form_submission=None, *args, **kwargs):
+        #Вызывается для отрисовки посадочной, у нас переадресация на текущую страницу
+        print('Рендеринг лендинга')
+        source_page_id = request.POST.get('source-page-id')
+        print(source_page_id)
+
+        if int(source_page_id) == 0:
+            request.session['form_page_success'] = True
+            request.session['message_show'] = False
+            print(request.session['form_page_success'])
+            print(request.session['message_show'])
+            print("/"+self.locale.language_code+"/search/")
+            return redirect("/"+self.locale.language_code+"/search/", permanent=False)
+        else:
+            source_page = Page.objects.get(pk=source_page_id)
+            request.session['form_page_success'] = True
+            request.session['message_show'] = False
+            print(source_page.url)
+            return redirect(source_page.url, permanent=False)
+
+        # if no source_page is set, render default landing page
+        return super().render_landing_page(request, form_submission, *args, **kwargs)

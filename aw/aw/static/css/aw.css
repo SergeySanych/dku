@@ -13,6 +13,14 @@ p {
     margin-block-end: 0em;
 }
 
+.rightcolumn p {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+
+
+
+
 ul {
     display: block;
     margin-block-start: 0em;

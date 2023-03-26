@@ -6,7 +6,12 @@ from wagtail.search.models import Query
 
 
 def search(request):
+    print("SEARCH")
+    from news.models import messageshowcheck
+    request = messageshowcheck(request)
+    #Проверка флагов показа отправки сообщения
     search_query = request.GET.get("query", None)
+    #запрос страницы пагинации
     page = request.GET.get("page", 1)
     lcode = Locale.get_active().language_code
     if lcode == "en":
