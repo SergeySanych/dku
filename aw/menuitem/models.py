@@ -94,6 +94,22 @@ class MenuPage(Page):
             template = 'imgcenter.html'
             icon = 'image'
 
+    class CarouselBlock(blocks.StructBlock):
+        carousel = blocks.ListBlock(
+            blocks.StructBlock(
+                [
+                    ("image", ImageChooserBlock(required=True)),
+                    ("text", blocks.TextBlock(required=False, max_length=200)),
+                    ("url", blocks.URLBlock(required=False)),
+                ]
+            )
+        )
+
+        class Meta:
+            template = 'slider.html'
+            icon = 'placeholder'
+            label = 'Corousel'
+
     menupage_body = StreamField([
         ('heading', blocks.CharBlock(form_classname="subtitle")),
         ('paragraph', blocks.RichTextBlock()),
@@ -102,6 +118,8 @@ class MenuPage(Page):
         ('imageleft', ImageLeftBlock()),
         ('imagecenter', ImageCenterBlock()),
         ('htmlcode', blocks.RawHTMLBlock()),
+        ('image', ImageChooserBlock()),
+        ('slider', CarouselBlock()),
     ], use_json_field=True, blank=True)
 
     menupage_body_bottom = StreamField([
