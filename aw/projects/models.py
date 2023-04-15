@@ -130,7 +130,7 @@ class ProjectPage(Page):
             context['projectlist'] = projectlist
             context['menuitemsfilter'] = menuitemsfilter
       
-        childrenpages = self.get_children().live().order_by('-first_published_at')
+        childrenpages = self.get_children().live().order_by('first_published_at')
         print(childrenpages)
         context['pagecategory'] = pagecategory
         context['childrenpages'] = childrenpages

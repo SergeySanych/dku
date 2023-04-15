@@ -27,6 +27,7 @@ def messageshowcheck(request):
     :type request: object
     """
     # Функция проверяет флаги перехода на после отправки сообщения с сайта.
+    # ошибка на случай если переменые еще не созданы
     print("Serve!!!")
     try:
         if request.session['form_page_success'] == True & request.session['message_show'] == True:
