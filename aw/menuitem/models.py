@@ -165,7 +165,7 @@ class MenuPage(Page):
             context['menuitemsfilter'] = menuitemsfilter
 
 
-        childrenpages = self.get_children().all().live().order_by('-first_published_at')
+        childrenpages = self.get_children().all().live().order_by('first_published_at')
 
         #projectlist = ProjectPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())
         context['pagecategory'] = pagecategory

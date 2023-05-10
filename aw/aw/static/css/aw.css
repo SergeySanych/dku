@@ -5,12 +5,31 @@ html {
     font-weight: normal;
     line-height: 1.7;
     color: #444;
-
+    margin-block-start: 0em;
+    margin-block-end: 0em;
 }
 
+.videoWrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+    margin: 10px 0px 20px 0px;
+}
+
+.videoWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
 p {
-    margin-block-start: 1em;
-    margin-block-end: 0em;
+    margin-block-start: 0.25em;
+    margin-block-end: 0.75em;
 }
 
 .rightcolumn p {
@@ -21,10 +40,10 @@ p {
 
 
 
-ul {
+ul, ol {
     display: block;
-    margin-block-start: 0em;
-    margin-block-end: 0em;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     padding-inline-start: 30px;
@@ -71,6 +90,8 @@ h4 {
     font-family: 'Nunito', sans-serif;
     font-size: 1.25rem;
     color: #1484F4;
+    margin-block-start: 1em;
+    margin-block-end: 0em;
 }
 
 h5 {
