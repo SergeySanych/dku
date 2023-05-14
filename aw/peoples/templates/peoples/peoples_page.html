@@ -4,8 +4,14 @@
 
 {% block lcolumn %}
 
-<p>Левая колонка</p>
-<p>Это контент в левой колонке. Это контент в левой колонке. Это контент в левой колонке.</p>
+    {% for children in childrenpages %}
+        {% with children=children.specific %}
+            <p class="left-list-text uk-margin-small-top uk-margin-small-bottom">
+                <a class="left-list-link" href="{% pageurl children %}">{{ children.title }}</a>
+            </p>
+            <p class="li-divider uk-margin-remove"></p>
+        {% endwith %}
+    {% endfor %}
 
 
 {% endblock %}
@@ -28,6 +34,34 @@
             </div>
         </div>
 </div>
+
+<!-- Projects -->
+{% with projects=page.people_projects.all %}
+    {% if projects %}
+        <div class="uk-section uk-section-default uk-section-xsmall">
+            <h4>Участие в проектах</h4>
+            <div class="uk-child-width-1-2" uk-grid>
+
+                {% for project in projects %}
+                <div>
+                    <div class="uk-inline">
+
+                            {% with project.main_image as main_image %}
+                                {% if main_image %}
+                                {% image main_image fill-500x330 %}
+                            {% endif %}
+
+                        <div class="uk-overlay uk-overlay-default uk-position-bottom  uk-flex uk-flex-middle uk-flex-center uk-text-center">
+                            <a class="overlay-link" href="{% pageurl project %}">{{ project.title }}</a>
+                        </div>
+                        {% endwith %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endwith %}
 
 
 
