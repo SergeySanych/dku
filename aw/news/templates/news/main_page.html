@@ -11,7 +11,7 @@
     <div class="uk-container uk-container-large">
         <div class="uk-grid-medium" uk-grid>
             <div class=" uk-width-4-4">
-                <div class="uk-light uk-position-relative uk-visible-toggle" tabindex="-1" uk-slideshow="ratio: 3:1; min-height: 400 ">
+                <div class="uk-light uk-position-relative uk-visible-toggle" tabindex="-1" uk-slideshow="ratio: 3:1; min-height: 400; autoplay: true; autoplay-interval: 4000 ">
                     <ul class="uk-slideshow-items">
                         {% for news in lastnews %}
                         <a href="{% pageurl news %}">
