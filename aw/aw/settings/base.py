@@ -185,8 +185,8 @@ WAGTAILSEARCH_BACKENDS = {
 WAGTAILADMIN_BASE_URL = "http://example.com"
 
 WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
-    ("en", "English"),
     ("ru", "Russian"),
+    ("en", "English"),
 ]
 
 
