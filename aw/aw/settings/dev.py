@@ -20,7 +20,13 @@ DEFAULT_FROM_EMAIL ='site.crs@yandex.ru'
 EMAIL_TO = 'sk@i-fabrika.kz'
 
 
+LANGUAGE_CODE = "ru"
 
+
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ("ru", "Russian"),
+    ("en", "English"),
+]
 
 try:
     from .local import *
