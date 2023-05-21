@@ -142,7 +142,7 @@ class MenuPage(Page):
     def get_template(self, request, *args, **kwargs):
         if self.locale.language_code == "en":
             return 'menuitem/menu_page_en.html'
-        return 'news/menu_page.html'
+        return 'menuitem/menu_page.html'
 
     def serve(self, request):
         # Проверяем флаги отправки сообщения
