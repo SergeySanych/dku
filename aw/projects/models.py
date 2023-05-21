@@ -107,8 +107,8 @@ class ProjectPage(Page):
         # Фунция выбирает англйиский или русский шаблон грузить
     def get_template(self, request, *args, **kwargs):
         if self.locale.language_code == "en":
-            return 'projects\project_page_en.html'
-        return 'projects\project_page.html'
+            return 'projects/project_page_en.html'
+        return 'projects/project_page.html'
 
     def serve(self, request):
         # Проверяем флаги отправки сообщения
