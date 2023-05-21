@@ -1,10 +1,10 @@
-{% extends "internalbase.html" %}
+{% extends "internalbase_en.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block lcolumn %}
 <!-- Left column -->
 <div>
-{% if page.menupage_left %}
+{% if page.project_left %}
     {% for children in childrenpages %}
         {% with children=children.specific %}
             <p class="left-list-text uk-margin-small-top uk-margin-small-bottom">
@@ -14,9 +14,9 @@
         {% endwith %}
     {% endfor %}
 {% endif %}
+    <h4>Similar content:</h4>
     <!-- Страницы   -->
-    <h4>Похожие материалы:</h4>
-{% if page.menupage_context == False %}
+{% if page.project_context == False %}
     {% for project in menuitemsfilter %}
         {% with project=project.specific %}
             <p class="left-list-text uk-margin-small-top uk-margin-small-bottom">
@@ -39,27 +39,25 @@
 
 
 </div>
-
 {% endblock %}
 
 {% block rcolumn %}
 <!-- Post -->
 <div>
-    <h3>{{ page.menupage_header }}</h3>
-    <div class="uk-position-relative uk-visible-toggle uk-light uk-margin-small-bottom" tabindex="-1" uk-slideshow="ratio: 5:2">
-    {% if page.menupage_slider == False %}
+    <h3>{{ page.project_header }}</h3>
+    {% if page.project_slider == False %}
+        <div class="uk-position-relative uk-visible-toggle uk-light uk-margin-small-bottom" tabindex="-1" uk-slideshow="ratio: 5:2">
         {% if page.main_image %}
         <ul class="uk-slideshow-items">
-            {% for item in page.menupage_gallery_images.all %}
+            {% for item in page.project_gallery_images.all %}
             <li>
-                {% image item.menupage_image fill-875x350 as tmp_photo %}
-                <img src="{{ tmp_photo.url }}" alt="{{ item.menupage_image_caption }}" uk-cover/>
+                {% image item.project_image fill-875x350 as tmp_photo %}
+                <img src="{{ tmp_photo.url }}" alt="{{ item.project_image_caption }}" uk-cover/>
             </li>
             {% endfor %}
 
         </ul>
         {% endif %}
-   {% endif %}
 
         <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#"
            uk-slidenav-previous
@@ -68,14 +66,14 @@
            uk-slideshow-item="next"></a>
 
     </div>
+    {% endif %}
 
-
-    {% include_block page.menupage_body %}
+    <div class="intro">{{ page.project_intro|richtext }}</div>
+    {% include_block page.project_body %}
 
 </div>
 <!-- Projects -->
-
-{% with projects=page.menupage_projects.all %}
+{% with projects=page.project_projects.all %}
     {% if projects %}
         <div class="uk-section uk-section-default uk-section-xsmall">
             <div class="uk-child-width-1-2" uk-grid>
@@ -99,10 +97,8 @@
         </div>
     {% endif %}
 {% endwith %}
-
-
 <!-- Childrens -->
-{% if page.menupage_vitrina %}
+{% if page.project_vitrina %}
 <div class="uk-section uk-section-default uk-section-xsmall">
     <div class="uk-child-width-1-2" uk-grid>
 
@@ -125,6 +121,5 @@
     </div>
 </div>
 {% endif %}
-{% include_block page.menupage_body_bottom %}
-
+{% include_block page.project_body_bottom %}
 {% endblock %}

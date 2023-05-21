@@ -4,16 +4,15 @@
 {% block lcolumn %}
 <!-- MainContent Two column -->
 
-            <!-- Left column post list -->
-            <div >
-                <h4>Сопутствующие материалы:</h4>
-                {% for newspage in newspages %}
-                <p class="left-list-text uk-margin-small-top uk-margin-small-bottom">
-                    <a class="left-list-link" href="{% pageurl newspage %}">{{ newspage.title }}</a>
-                </p>
-                <p class="li-divider uk-margin-remove"></p>
-                {% endfor %}
-            </div>
+            <!-- 8 last news -->
+    {% for children in childrenpages %}
+        {% with children=children.specific %}
+            <p class="left-list-text uk-margin-small-top uk-margin-small-bottom">
+                <a class="left-list-link" href="{% pageurl children %}">{{ children.title }}</a>
+            </p>
+            <p class="li-divider uk-margin-remove"></p>
+        {% endwith %}
+    {% endfor %}
 {% endblock %}
 
 {% block rcolumn %}

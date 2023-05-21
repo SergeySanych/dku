@@ -1,4 +1,4 @@
-{% extends "internalbase.html" %}
+{% extends "internalbase_en.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block lcolumn %}
@@ -15,7 +15,7 @@
     {% endfor %}
 {% endif %}
     <!-- Страницы   -->
-    <h4>Похожие материалы:</h4>
+        <h4>Similar content:</h4>
 {% if page.menupage_context == False %}
     {% for project in menuitemsfilter %}
         {% with project=project.specific %}

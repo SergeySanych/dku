@@ -92,6 +92,13 @@ class NewsPage(Page):
         context = super().get_context(request)
         context['newspages'] = ProjectPage.objects.all().live().order_by('first_published_at').filter(
             locale=Locale.get_active())
+        # Update context to include only published posts, ordered by reverse-chron
+        #Вместо дочерних здесь берем братьев и сестер
+        childrenpages = self.get_siblings().all().live().order_by('-first_published_at')[:6]
+
+        #projectlist = ProjectPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())
+        context['childrenpages'] = childrenpages
+
         return context
 
     search_fields = Page.search_fields + [
@@ -101,13 +108,11 @@ class NewsPage(Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
-            FieldPanel('date'),
-            FieldPanel('tags'),
-            FieldPanel('categories', widget=forms.CheckboxSelectMultiple),
+            FieldPanel('date', heading="Дата выхода новости"),
         ], heading="Blog information"),
-        FieldPanel('intro'),
-        FieldPanel('body'),
-        InlinePanel('gallery_images', label="Gallery images"),
+        FieldPanel('intro', heading="Обезательное поле, отображается на главной (анонс новости)"),
+        FieldPanel('body', heading="Текст новости"),
+        InlinePanel('gallery_images', label="Изображение - отображается на главной"),
     ]
 
 
