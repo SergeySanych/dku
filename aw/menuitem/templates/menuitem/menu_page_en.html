@@ -73,32 +73,7 @@
     {% include_block page.menupage_body %}
 
 </div>
-<!-- Projects -->
 
-{% with projects=page.menupage_projects.all %}
-    {% if projects %}
-        <div class="uk-section uk-section-default uk-section-xsmall">
-            <div class="uk-child-width-1-2" uk-grid>
-                {% for project in projects %}
-                <div>
-                    <div class="uk-inline">
-
-                            {% with project.main_image as main_image %}
-                                {% if main_image %}
-                                {% image main_image fill-500x330 %}
-                            {% endif %}
-
-                        <div class="uk-overlay uk-overlay-default uk-position-bottom  uk-flex uk-flex-middle uk-flex-center uk-text-center">
-                            <a class="overlay-link" href="{% pageurl project %}">{{ project.title }}</a>
-                        </div>
-                        {% endwith %}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
-{% endwith %}
 
 
 <!-- Childrens -->
@@ -125,6 +100,35 @@
     </div>
 </div>
 {% endif %}
+
+<!-- Projects -->
+
+{% with projects=page.menupage_projects.all %}
+    {% if projects %}
+        <div class="uk-section uk-section-default uk-section-xsmall">
+            <div class="uk-child-width-1-2" uk-grid>
+                <div class="uk-width-1-1"><h4>Projects</h4></div>
+                {% for project in projects %}
+                <div>
+                    <div class="uk-inline">
+
+                            {% with project.main_image as main_image %}
+                                {% if main_image %}
+                                {% image main_image fill-500x330 %}
+                            {% endif %}
+
+                        <div class="uk-overlay uk-overlay-default uk-position-bottom  uk-flex uk-flex-middle uk-flex-center uk-text-center">
+                            <a class="overlay-link" href="{% pageurl project %}">{{ project.title }}</a>
+                        </div>
+                        {% endwith %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endwith %}
+
 {% include_block page.menupage_body_bottom %}
 
 {% endblock %}
