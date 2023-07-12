@@ -28,6 +28,7 @@ class PeoplesCategory(models.Model):
 
 class PeoplesPage(Page):
     full_name = models.CharField(max_length=250)
+    order = models.IntegerField(default=20, blank=True)
     photo = models.ForeignKey(
         'wagtailimages.Image', null=True, blank=True,
         on_delete=models.SET_NULL, related_name='+'
@@ -65,6 +66,7 @@ class PeoplesPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel('full_name'),
+        FieldPanel('order'),
         FieldPanel('short_discription'),
         FieldPanel('full_discription'),
         FieldPanel('photo'),
@@ -95,7 +97,7 @@ class PeoplesTeamPage(Page):
         return super().serve(messageshowcheck(request))
 
     def get_context(self, request):
-        teamspages = PeoplesPage.objects.all().live().order_by('first_published_at').filter(locale=Locale.get_active())
+        teamspages = PeoplesPage.objects.all().live().order_by('order').filter(locale=Locale.get_active())
         context = super().get_context(request)
         context['teampeoples'] = teamspages.filter(people_categories__peoplecategory='Наша команда')
         return context

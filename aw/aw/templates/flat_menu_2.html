@@ -12,6 +12,14 @@
 					<a href="https://edu.dku.kz/">
 						<span class="ws">Online courses</span>
 					</a>
+				{% elif item.text == "3ru" %}
+					<a href="http://srkc.dku.kz/">
+						<span class="ws">Конференция "Шелковый путь знаний"</span>
+					</a>
+				{% elif item.text == "3en" %}
+					<a href="http://srkc.dku.kz/">
+						<span class="ws">Conference “Silk Road of Knowledge” </span>
+					</a>
 				{% else %}
 					<a href="{{ item.href }}">
 						<span class="ws">{{ item.text }}</span>
