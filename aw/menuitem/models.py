@@ -209,10 +209,10 @@ class MenuPage(Page):
         ),
         MultiFieldPanel(
             [
-                FieldPanel('menupage_avtor', heading='Авторы публикации или участники проекта'),
-                FieldPanel('menupage_projects', heading='Проекты связанные с этой страницей'),
+                FieldPanel('menupage_projects', widget=forms.CheckboxSelectMultiple),
             ],
-            heading="Информация о связанных страницах",
+            heading="Информация о связанных проектах",
+            classname="collapsed",
         ),
     ]
 

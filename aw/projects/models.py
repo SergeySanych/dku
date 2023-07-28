@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.models import Page, Orderable, Locale
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
@@ -174,12 +175,11 @@ class ProjectPage(Page):
         ),
         MultiFieldPanel(
             [
-                FieldPanel('project_avtor', heading='Авторы публикации или участники проекта'),
-                FieldPanel('project_projects', heading='Проекты связанные с этой страницей'),
+                FieldPanel('project_projects', widget=forms.CheckboxSelectMultiple),
             ],
-            heading="Информация о связанных страницах",
+            heading="Информация о связанных проектах",
+            classname="collapsed",
         ),
-
     ]
 
     class Meta:
