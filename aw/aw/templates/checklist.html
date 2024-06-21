@@ -1,0 +1,35 @@
+{% load wagtailimages_tags %}
+
+<div class="uk-container uk-container-large">
+    <div class="uk-padding uk-padding-remove-top" uk-grid>
+        <div class="uk-width-1-1 uk-padding-remove-left">
+            <h3 class="checklist-h3"> {{ value.header }}</h3>
+        </div>
+
+        <div uk-height-viewport="expand: true" class="uk-width-1-1 uk-width-1-3@m uk-background-cover"
+        {% image value.bgimage fill-400x600 as tmp_bg %}
+             style="background-image: url( {{ tmp_bg.url }} );">
+
+        </div>
+        <div class="uk-width-1-1 uk-width-2-3@m">
+            <div uk-grid>
+                {{ value.beforechecklisttext }}
+                {% for slide in value.checklist %}
+                    <div  class="uk-width-1-1 uk-grid-small" uk-grid>
+                        <div class="uk-width-auto">
+                            <span class="checklist-icon" uk-icon="icon: check; ratio: 1.25"></span>
+                        </div>
+                        <div class="uk-width-expand">
+                            {{ slide.checktext }}
+                            {{ slide.text }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <p  class="uk-width-1-1">{{ value.afterchecklisttext }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

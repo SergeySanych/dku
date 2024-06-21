@@ -1,0 +1,17 @@
+{% load wagtailimages_tags %}
+
+
+<div uk-grid>
+    <p class="uk-width-1-1">{{ value.listheader }}</p>
+    {% for slide in value.checklist %}
+        <div  class="uk-width-1-1 uk-grid-small" uk-grid>
+            <div class="uk-width-auto">
+                <span class="checklist-icon" uk-icon="icon: check; ratio: 1.25"></span>
+            </div>
+            <div class="uk-width-expand">
+                <p class="checklist-text1">{{ slide.checktext }}</p>
+                <p class="checklist-text2">{{ slide.text }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>

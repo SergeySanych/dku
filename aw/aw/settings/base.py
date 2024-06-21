@@ -12,10 +12,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import warnings
+from wagtail.utils.deprecation import RemovedInWagtail50Warning
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
-
+warnings.filterwarnings('ignore', category=RemovedInWagtail50Warning)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -30,6 +32,7 @@ INSTALLED_APPS = [
     "peoples",
     "menuitem",
     "projects",
+    "minisite",
     "wagtail_localize",
     "wagtail_localize.locales",
     "wagtail.contrib.forms",
@@ -102,7 +105,7 @@ DATABASES = {
         'NAME': 'dku_aw',
         'USER': 'b_dku',
         'PASSWORD': 'DKUkllkj123',
-        'HOST': '91.201.215.236',
+        'HOST': '194.110.55.57',
         'PORT': 5432,
     }
 }

@@ -1,0 +1,58 @@
+{% load wagtailimages_tags %}
+
+<div class="uk-section uk-section-default uk-section-xsmall uk-margin-remove-top uk-padding-remove-top uk-margin-medium-top">
+    <div class="uk-container uk-container-large">
+        <div class="
+            {% if value.position == 1 and value.color == 1 %}
+             blueborder uk-padding
+            {% elif value.position == 1 and value.color == 2 %}
+             redborder uk-padding
+            {% elif value.position == 0 %}
+             uk-padding uk-padding-remove-top uk-padding-remove-bottom
+            {% elif value.position == 2 %}
+             uk-padding uk-padding-remove-top uk-padding-remove-bottom
+            {% endif %}
+            ">
+            <div uk-grid>
+                <div class="
+                {% if value.position == 2 %}
+                 uk-padding-left
+                {% endif %}
+                uk-width-1-1 uk-width-1-3@m">
+                    <h{{ value.header_level }} class="leftheader-h{{ value.header_level }}">{{ value.left }}</h{{ value.header_level }}>
+                </div>
+                <div class="uk-width-1-1 uk-width-2-3@m uk-margin-remove">
+                    <div class="
+                        {% if value.position == 2 and value.color == 1 %}
+                         blueborder uk-padding
+                        {% elif value.position == 2 and value.color == 2 %}
+                         redborder uk-padding
+                        {% endif %}
+                        rightcolumn">
+                        {{ value.right }}
+                            {% if value.rightcolor > 0 %}
+                                <div class="
+                                {% if value.rightcolor == 1  %}
+                                 blueborder uk-padding-small uk-padding-remove-bottom
+                                {% elif value.rightcolor == 2 %}
+                                 redborder uk-padding-small uk-padding-remove-bottom
+                                {% endif %}">
+                                    {{ value.rightborder }}
+                                </div>
+                            {% endif %}
+                        {{ value.rightfinish }}
+                    </div>
+                    {% if value.cta and value.url %}
+                        <div class="courses-fs">
+                            <a class="uk-button uk-button-default uk-margin-bottom uk-margin-small-top" href="{{ value.url }}"><span uk-icon="forward"> </span>{{ value.cta }}</a>
+                        </div>
+                    {% elif value.cta %}
+                        <div class="courses-fs">
+                            <a class="uk-button uk-button-default uk-margin-bottom uk-margin-small-top" uk-toggle="target: #modal-close-default" href=""><span uk-icon="forward"> </span>{{ value.cta }}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
