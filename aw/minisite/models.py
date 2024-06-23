@@ -116,6 +116,13 @@ class MinisiteList(ClusterableModel):
 
 
 class MinisitePage(Page):
+
+    # Фунция выбирает англйиский или русский шаблон грузить
+    def get_template(self, request, *args, **kwargs):
+        if self.locale.language_code == "en":
+            return 'minisite/minisite_page_en.html'
+        return 'minisite/minisite_page.html'
+
     minisite = models.ForeignKey(
         MinisiteList,
         on_delete=models.CASCADE,
