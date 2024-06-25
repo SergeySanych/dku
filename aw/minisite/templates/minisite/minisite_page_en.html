@@ -54,11 +54,15 @@
 
 
 
-                    {% if LANGUAGE_CODE == "ru" %}
-                        {% flat_menu 'fm' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
-                    {% else %}
-                        {% flat_menu 'fm_en' max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
-                    {% endif %}
+                {% if LANGUAGE_CODE == "ru" %}
+                    {% with menu_name=page.minisite.minisite_name|add:"_ru" %}
+                        {% flat_menu menu_name max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+                    {% endwith %}
+                {% else %}
+                    {% with menu_name=page.minisite.minisite_name|add:"_en" %}
+                        {% flat_menu menu_name max_levels=3 template="flat_menu.html" sub_menu_templates="flat_menu_2.html, flat_menu_3.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+                    {% endwith %}
+                {% endif %}
 
 
                 </div>
@@ -71,9 +75,13 @@
         <div class="uk-offcanvas-bar uk-flex uk-flex-column">
             <button class="uk-offcanvas-close" type="button" uk-close></button>
             {% if LANGUAGE_CODE == "ru" %}
-                {% flat_menu 'fm' max_levels=3 template="modal_menu.html" sub_menu_templates="modal_menu_2.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+                {% with menu_name=page.minisite.minisite_name|add:"_ru" %}
+                    {% flat_menu menu_name max_levels=3 template="modal_menu.html" sub_menu_templates="modal_menu_2.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+                {% endwith %}
             {% else %}
-                {% flat_menu 'fm_en' max_levels=3 template="modal_menu.html" sub_menu_templates="modal_menu_2.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+                {% with menu_name=page.minisite.minisite_name|add:"_en" %}
+                    {% flat_menu menu_name max_levels=3 template="modal_menu.html" sub_menu_templates="modal_menu_2.html" show_menu_heading=False fall_back_to_default_site_menus=True %}
+                {% endwith %}
             {% endif %}
 
 
