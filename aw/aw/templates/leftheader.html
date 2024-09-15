@@ -20,6 +20,7 @@
                 {% endif %}
                 uk-width-1-1 uk-width-1-3@m">
                     <h{{ value.header_level }} class="leftheader-h{{ value.header_level }}">{{ value.left }}</h{{ value.header_level }}>
+                    <div>{{ value.leftrich }}</div>
                 </div>
                 <div class="uk-width-1-1 uk-width-2-3@m uk-margin-remove">
                     <div class="
@@ -44,11 +45,11 @@
                     </div>
                     {% if value.cta and value.url %}
                         <div class="courses-fs">
-                            <a class="uk-button uk-button-default uk-margin-bottom uk-margin-small-top" href="{{ value.url }}"><span uk-icon="forward"> </span>{{ value.cta }}</a>
+                            <a class="uk-button uk-button-send  uk-margin-bottom uk-margin-small-top" href="{{ value.url }}"><span uk-icon="forward"> </span>{{ value.cta }}</a>
                         </div>
                     {% elif value.cta %}
                         <div class="courses-fs">
-                            <a class="uk-button uk-button-default uk-margin-bottom uk-margin-small-top" uk-toggle="target: #modal-close-default" href=""><span uk-icon="forward"> </span>{{ value.cta }}</a>
+                            <a class="uk-button uk-button-send  uk-margin-bottom uk-margin-small-top" uk-toggle="target: #modal-close-default" href=""><span uk-icon="forward"> </span>{{ value.cta }}</a>
                         </div>
                     {% endif %}
                 </div>

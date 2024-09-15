@@ -28,7 +28,7 @@
 
     <!-- Fonts -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&family=Nunito:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&family=Nunito:wght@400;600;800&display=swap');
     </style>
 
     <!-- Icons -->
@@ -89,70 +89,111 @@
     </div>
 
 <!-- Logotipe block -->
-<div class="uk-section uk-padding-remove-top uk-padding-remove-bottom">
-    <div class="uk-container uk-container-large">
-        <div class="uk-grid-medium uk-flex" uk-grid>
-            <div class="uk-width-1-1@m">
-                <div>
-                    <div class="uk-position-relative uk-visible-toggle uk-light uk-margin-small-bottom" tabindex="-1" uk-slider="autoplay: true; autoplay-interval: 2000; pause-on-hover: true ">
-                        <ul class="uk-slider-items uk-child-width-1-3@m">
-                            {% for item in page.minisite.minisite_gallery_images.all %}
-                            <li class="uk-flex uk-flex-middle uk-flex-center uk-height-small">
-                                {% image item.minisite_logo width-300 as tmp_photo %}
-                                <img src="{{ tmp_photo.url }}">
-                            </li>
-                            {% endfor %}
+{% if page.minisite.minisite_listlogo == True %}
+    <div class="uk-section uk-padding-remove-top uk-padding-remove-bottom">
+        <div class="uk-container uk-container-large">
+            <div class="uk-grid-medium uk-flex" uk-grid>
+                <div class="uk-width-1-1@m">
+                    <div>
+                        <div class="uk-position-relative uk-visible-toggle uk-light uk-margin-small-bottom" tabindex="-1" uk-slider="autoplay: true; autoplay-interval: 2000; pause-on-hover: true ">
+                            <ul class="uk-slider-items uk-child-width-1-3@m">
+                                {% for item in page.minisite.minisite_gallery_images.all %}
+                                    <li class="uk-flex uk-flex-middle uk-flex-center uk-height-small">
+                                        {% image item.minisite_logo width-300 as tmp_photo %}
+                                        <img src="{{ tmp_photo.url }}">
+                                    </li>
+                                {% endfor %}
 
-                        </ul>
+                            </ul>
+
+                        </div>
 
                     </div>
 
+
                 </div>
-
-
             </div>
         </div>
     </div>
-</div>
+{% endif %}
 
-
-<div class="uk-section uk-section-small uk-padding-remove-top ">
-    <div class="uk-background-cover uk-background-blend-multiply uk-background-primary uk-background-center-center"
-         {% image page.minisite_bgimage fill-1920x800 as tmp_bg %}
-         style="background-image: url( {{ tmp_bg.url }} );">
-        <div class="uk-container uk-container-large" >
-            <div class="uk-padding uk-padding-remove-horizontal ms-header" uk-grid>
-                <div class="uk-width-1-1 ">
-                    <div class="uk-text-center uk-padding-small">
-                        <h1>{{ page.minisite.minisite_header_ru }}</h1>
-                    </div>
-                    <div class="uk-text-center">
-                        {% if page.minisite.minisite_subheader_ru %} <h2>{{ page.minisite.minisite_subheader_ru }}</h2>{% endif %}
+<!-- Fon + header block class ms-header-->
+{% if page.minisite.minisite_fonblock == True %}
+    <div class="uk-section uk-section-small uk-padding-remove-top"
+         style="background-color: {{ page.minisite.minisite_fon_color }};">
+        <div class="uk-background-cover uk-background-center-center"
+             {% image page.minisite_bgimage fill-1920x800 as tmp_bg %}
+             style="background-image: url({{ tmp_bg.url }});">
+            <div class="uk-container uk-container-large" >
+                <div class="uk-padding uk-padding-remove-horizontal ms-header" uk-grid>
+                    <div class="uk-width-1-1 ">
+                        <div class="uk-text-center uk-padding-small">
+                            <h1 style="color: {{ page.minisite.minisite_fon_textcolor }};">{{ page.minisite.minisite_header_ru }}</h1>
+                        </div>
+                        <div class="uk-text-center">
+                            {% if page.minisite.minisite_subheader_ru %}
+                                <h2 style="color: {{ page.minisite.minisite_fon_textcolor }};">{{ page.minisite.minisite_subheader_ru }}</h2>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-</div>
+{% endif %}
+
+<!-- left logo block class ms-leftlogo-->
+{% if page.minisite.minisite_leftlogo == True %}
+    <div class="uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom"
+         style="background-color: {{ page.minisite.minisite_ll_fon_color }};">
+            <div class="uk-container" >
+                <div class="ms-leftlogo" uk-grid>
+                    <div class="uk-width-1-4@m">
+                        <div class="padding-right20 uk-flex uk-flex-middle uk-flex-center ">
+                            {% image page.minisite.minisite_mainlogo width-300 as tmp_photo %}
+                            <img src="{{ tmp_photo.url }}">
+                        </div>
+                    </div>
+                    <div class="uk-width-3-4@m uk-flex uk-flex-middle uk-flex-center">
+                        <div class="uk-text-center uk-padding-small">
+                            <h1 style="color: {{ page.minisite.minisite_ll_textcolor }};"> {{ page.minisite.minisite_header_ru }} </h1>
+                        </div>
+                        <div class="uk-text-center">
+                            {% if page.minisite.minisite_subheader_ru %}
+                                <h2 style="color: {{ page.minisite.minisite_ll_textcolor }};">{{ page.minisite.minisite_subheader_ru }}</h2>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endif %}
 
 
 
 <!-- Content block -->
 <div class="uk-section uk-padding-remove-top">
     <div class="uk-container uk-container-large">
+
+
         <div class="uk-grid-medium uk-flex" uk-grid>
             <div class="uk-width-1-1@m">
-
-
-                    <h3>{{ page.minisite_title_h1 }}</h3>
-
-
-                    {% include_block page.minisite_body %}
-
-
-
+                <h3>{{ page.minisite_title_h1 }}</h3>
             </div>
+            {% if page.minisite_onecolumn == True %}
+                <div class="uk-width-1-1@m uk-margin-remove-top">
+                    {% include_block page.minisite_body %}
+                </div>
+            {% endif %}
+            {% if page.minisite_twocolumn == True %}
+                <div class="uk-width-1-4@m">
+                    {% include_block page.minisite_leftbody %}
+                </div>
+                <div class="uk-width-3-4@m">
+                    {% include_block page.minisite_rightbody %}
+                </div>
+            {% endif %}
+
         </div>
     </div>
 </div>
