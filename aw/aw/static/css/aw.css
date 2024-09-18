@@ -114,6 +114,19 @@ p {
     border: 2px solid #909090;
 }
 
+.newsblock .uk-overlay-primary {
+    background: #2165ADBB;
+}
+
+.newsblock .uk-overlay {
+    padding: 15px 15px;
+    height: 120px;
+}
+
+.newsblock p{
+    color: #fafafa;
+}
+
 .courses-fs a.uk-button {
   padding: 10px 40px;
   font-size: 1.25rem;

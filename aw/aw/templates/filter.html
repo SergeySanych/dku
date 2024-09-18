@@ -5,7 +5,7 @@
     <div class="uk-grid-small uk-grid-divider uk-child-width-auto" uk-grid>
         <div>
             <ul class="uk-subnav uk-subnav-pill" uk-margin>
-                <li class="uk-active" uk-filter-control><a href="#">ВСЕ</a></li>
+                <li class="uk-active" uk-filter-control><a href="#">{{ value.filterall }}</a></li>
             </ul>
         </div>
         <div>
@@ -15,8 +15,8 @@
                 {% endfor %}
             </ul>
         </div>
-        <div>
-            <ul class="js-filter uk-subnav uk-subnav-pill" uk-margin>
+        <div class="uk-width-1-1 uk-margin-remove-top">
+            <ul class="js-filter uk-subnav uk-subnav-pill " uk-margin>
                 {% for list2 in value.filterlist2 %}
                 <li data-color="{{ list2.fl2_fl1_code }}" uk-filter-control="filter: [data-size='{{ list2.fl2_code }}']; group: size"><a href="#">{{ list2.fl2_name }}</a></li>
                 {% endfor %}

@@ -1,0 +1,16 @@
+{% load wagtailimages_tags %}
+
+
+<div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider="autoplay: true; autoplay-interval: 2000; pause-on-hover: true ">
+    <ul class="uk-slider-items uk-child-width-1-1 uk-grid">
+        {% for slide in value.wideslider %}
+            <li>
+                <div >
+                    {% image slide.pic fill-1200x600 %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+        <a class="uk-dark uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+        <a class="uk-dark uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
+</div>

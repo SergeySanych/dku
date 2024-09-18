@@ -90,8 +90,28 @@ class CheckListBlock(blocks.StructBlock):
         label = 'CheckList'
 
 
+class NewsBlock(blocks.StructBlock):
+    header = blocks.TextBlock(required=False)
+
+    newslist = blocks.ListBlock(
+        blocks.StructBlock(
+            [
+                ("pic", ImageChooserBlock(help_text='Изображение для новости')),
+                ("newsheader", blocks.TextBlock(max_length=250)),
+                ("url", blocks.TextBlock(help_text='Ссылка на нужную страницу, можно другой сайт', max_length=250) )
+            ]
+        )
+    )
+
+    class Meta:
+        template = 'newslist.html'
+        icon = 'check'
+        label = 'NewsList'
+
+
 class FilterBlock(blocks.StructBlock):
     filterlevel = blocks.IntegerBlock(help_text='1 or 2 - levels', default=1)
+    filterall = blocks.CharBlock(help_text='Текст для ВСЕ', default='ВСЕ')
 
     filterlist1 = blocks.ListBlock(
         blocks.StructBlock(
@@ -130,6 +150,21 @@ class FilterBlock(blocks.StructBlock):
         label = 'Filter'
 
 
+class WideSliderBlock(blocks.StructBlock):
+    wideslider = blocks.ListBlock(
+        blocks.StructBlock(
+            [
+                ("pic", ImageChooserBlock(required=True)),
+            ]
+        )
+    )
+
+    class Meta:
+        template = 'wideslider.html'
+        icon = 'placeholder'
+        label = 'WideSlider'
+
+
 @register_snippet
 class MinisiteList(ClusterableModel):
     minisite_name = models.CharField(max_length=50)
@@ -138,7 +173,8 @@ class MinisiteList(ClusterableModel):
     minisite_subheader_ru = models.CharField(max_length=250, null=True, blank=True)
     minisite_subheader_en = models.CharField(max_length=250, null=True, blank=True)
 
-    minisite_listlogo = models.BooleanField(verbose_name="Показывать список логотипов", default=True)
+    minisite_listlogo = models.BooleanField(verbose_name="Показывать список логотипов вверху", default=False)
+    minisite_listlogo_bottom = models.BooleanField(verbose_name="Показывать список логотипов внизу", default=False)
 
     minisite_fonblock = models.BooleanField(verbose_name="Показывать блок с фоновым рисунком и заголовком сайта", default=True)
     minisite_fon_color = models.CharField(max_length=15, null=True, blank=True, default='#fafafa')
@@ -164,7 +200,8 @@ class MinisiteList(ClusterableModel):
 
         MultiFieldPanel(
             [
-                FieldPanel('minisite_listlogo', heading="Показывать список логотипов"),
+                FieldPanel('minisite_listlogo', heading="Показывать список логотипов вверху"),
+                FieldPanel('minisite_listlogo_bottom', heading="Показывать список логотипов внизу"),
                 InlinePanel('minisite_gallery_images', label="Список логотипов"),
             ],
             heading="Блок логотипов",
@@ -232,6 +269,8 @@ class MinisitePage(Page):
             ('filter', FilterBlock()),
             ('leftheader2', LeftHeaderBlock()),
             ('checklist2', CheckListBlock2()),
+            ('newsblock', NewsBlock()),
+            ('wideslider', WideSliderBlock()),
         ], use_json_field=True, blank=True)
 
     minisite_leftbody = StreamField([
@@ -242,6 +281,8 @@ class MinisitePage(Page):
             ('filter', FilterBlock()),
             ('leftheader2', LeftHeaderBlock()),
             ('checklist2', CheckListBlock2()),
+            ('newsblock', NewsBlock()),
+            ('wideslider', WideSliderBlock()),
         ], use_json_field=True, blank=True)
 
     minisite_rightbody = StreamField([
@@ -252,6 +293,8 @@ class MinisitePage(Page):
         ('filter', FilterBlock()),
         ('leftheader2', LeftHeaderBlock()),
         ('checklist2', CheckListBlock2()),
+        ('newsblock', NewsBlock()),
+        ('wideslider', WideSliderBlock()),
     ], use_json_field=True, blank=True)
 
     content_panels = Page.content_panels + [
