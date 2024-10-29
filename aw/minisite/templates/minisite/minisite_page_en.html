@@ -28,7 +28,7 @@
 
     <!-- Fonts -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&family=Nunito:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&family=Nunito:wght@400;600;800&display=swap');
     </style>
 
     <!-- Icons -->
@@ -118,7 +118,7 @@
 {% endif %}
 
 <!-- Fon + header block class ms-header-->
-{% if page.minisite.minisite_fonblock == True %}
+{% if page.minisite.minisite_fonblock and page.minisite_bgimage %}
     <div class="uk-section uk-section-small uk-padding-remove-top"
          style="background-color: {{ page.minisite.minisite_fon_color }};">
         <div class="uk-background-cover uk-background-center-center"

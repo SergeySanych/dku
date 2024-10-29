@@ -118,7 +118,7 @@
 {% endif %}
 
 <!-- Fon + header block class ms-header-->
-{% if page.minisite.minisite_fonblock == True %}
+{% if page.minisite.minisite_fonblock and page.minisite_bgimage %}
     <div class="uk-section uk-section-small uk-padding-remove-top"
          style="background-color: {{ page.minisite.minisite_fon_color }};">
         <div class="uk-background-cover uk-background-center-center"
