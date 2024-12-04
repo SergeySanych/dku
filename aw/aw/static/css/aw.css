@@ -9,6 +9,10 @@ html {
     margin-block-end: 0em;
 }
 
+.uk-grid-small > *, .uk-grid-column-small > * {
+    padding-left: 5px;
+}
+
 .videoWrapper {
     position: relative;
     padding-bottom: 56.25%;

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_en.html" %}
 {% load static wagtailcore_tags wagtailuserbar wagtailimages_tags i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 
@@ -14,13 +14,13 @@
                 <div class="uk-grid-small uk-grid-divider uk-child-width-auto" uk-grid>
                     <div>
                         <ul class="uk-subnav uk-subnav-pill" uk-margin>
-                            <li class="uk-active" uk-filter-control><a href="#">ВСЕ</a></li>
+                            <li class="uk-active" uk-filter-control><a href="#">ALL</a></li>
                         </ul>
                     </div>
                     <div>
                         <ul class="uk-subnav uk-subnav-pill" uk-margin>
                             {% for tag in tags %}
-                            <li uk-filter-control="[data-color*='{{ tag.id }}']"><a href="#">{{ tag.tag_name_ru }}</a></li>
+                            <li uk-filter-control="[data-color*='{{ tag.id }}']"><a href="#">{{ tag.tag_name_en }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>

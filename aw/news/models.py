@@ -21,6 +21,28 @@ from wagtail.contrib.settings.models import BaseSetting, register_setting
 PostgresSearchQueryCompiler.LAST_TERM_IS_PREFIX = True
 
 
+@register_snippet
+class Tags(models.Model):
+    tag_name_ru = models.CharField(max_length=255, verbose_name="Название тега на русском")
+    tag_name_en = models.CharField(max_length=255, verbose_name="Название тега на английском")
+
+    search_fields = Page.search_fields + [
+        index.SearchField('tag_name_ru'),
+        index.SearchField('tag_name_en'),
+    ]
+
+    panels = [
+        FieldPanel('tag_name_ru'),
+        FieldPanel('tag_name_en'),
+    ]
+
+    def __str__(self):
+        return self.tag_name_ru
+
+    class Meta:
+        verbose_name_plural = 'Теги'
+
+
 def messageshowcheck(request):
     """
 
@@ -45,12 +67,19 @@ def messageshowcheck(request):
 class NewsIndexPage(Page):
     intro = RichTextField(blank=True)
 
+    def get_template(self, request, *args, **kwargs):
+        if self.locale.language_code == "en":
+            return 'news/news_index_page_en.html'
+        return 'news/news_index_page.html'
+
     def get_context(self, request):
         print("get_context!!!")
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
         newspages = self.get_children().live().order_by('-first_published_at')
+        tags = Tags.objects.all()
         context['newspages'] = newspages
+        context['tags'] = tags
         return context
 
     def serve(self, request):
@@ -76,6 +105,7 @@ class NewsPage(Page):
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=NewsPageTag, blank=True)
     categories = ParentalManyToManyField('news.NewsCategory', blank=True)
+    news_tags = ParentalManyToManyField('news.Tags', blank=True)
 
     def main_image(self):
         gallery_item = self.gallery_images.first()
@@ -110,6 +140,7 @@ class NewsPage(Page):
         MultiFieldPanel([
             FieldPanel('date', heading="Дата выхода новости"),
         ], heading="Blog information"),
+        FieldPanel('news_tags', heading='Теги новостей', widget=forms.CheckboxSelectMultiple),
         FieldPanel('intro', heading="Обезательное поле, отображается на главной (анонс новости)"),
         FieldPanel('body', heading="Текст новости"),
         InlinePanel('gallery_images', label="Изображение - отображается на главной"),
