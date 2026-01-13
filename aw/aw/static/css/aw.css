@@ -13,6 +13,21 @@ html {
     padding-left: 5px;
 }
 
+
+/* для html слайдера */
+.embed-fit {
+  overflow: hidden;
+  position: relative;
+  height: 450px; /* будет перезаписано JS-ом под data-target-h */
+}
+
+.embed-fit__inner {
+  transform-origin: top left;
+  will-change: transform;
+}
+
+
+
 .videoWrapper {
     position: relative;
     padding-bottom: 56.25%;

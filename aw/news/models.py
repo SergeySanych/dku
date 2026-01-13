@@ -20,6 +20,19 @@ from wagtail.contrib.settings.models import BaseSetting, register_setting
 # Partial search bug fix
 PostgresSearchQueryCompiler.LAST_TERM_IS_PREFIX = True
 
+class HtmlSliderBlock(blocks.StructBlock):
+    htmlslider = blocks.ListBlock(
+        blocks.StructBlock(
+            [
+                ("html", blocks.RawHTMLBlock(required=True)),
+            ]
+        )
+    )
+
+    class Meta:
+        template = 'htmlslider.html'
+        icon = 'placeholder'
+        label = 'HtmlSlider'
 
 @register_snippet
 class Tags(models.Model):
@@ -161,6 +174,13 @@ class NewsPageGalleryImage(Orderable):
 
 
 class MainPage(Page):
+    # Html slider
+    minisite_body = StreamField([
+            ('htmlslider', HtmlSliderBlock()),
+        ], use_json_field=True, blank=True)
+
+    mp_htmlslidershow = models.BooleanField(verbose_name="Показывать html слайдер", default=False)
+
     # Fileds for article in kmoweldge space
     articletext = models.CharField(max_length=255, null=True, blank=True)
     articleurl = models.CharField(max_length=255, null=True, blank=True)
@@ -200,8 +220,11 @@ class MainPage(Page):
         'wagtailimages.Image', null=True, blank=True,
         on_delete=models.SET_NULL, related_name='+'
     )
-
+    #связь со списком компонентов
     components = ParentalManyToManyField('news.ComponentsList', blank=True)
+
+    # связь со магистрату - master program
+    mp = ParentalManyToManyField('news.MasterProgramList', blank=True)
 
     #Фунция выбирает англйиский или русский шаблон грузить
     def get_template(self, request, *args, **kwargs):
@@ -217,6 +240,17 @@ class MainPage(Page):
         MultiFieldPanel([
             FieldPanel('components', widget=forms.CheckboxSelectMultiple),
         ], heading="Components list"),
+        MultiFieldPanel([
+            FieldPanel('mp', widget=forms.CheckboxSelectMultiple),
+        ], heading="Master Program list"),
+        MultiFieldPanel(
+            [
+                FieldPanel('mp_htmlslidershow', heading="Показывать html слайдер"),
+                FieldPanel('minisite_body', heading='Контент блок'),
+            ],
+            heading="HTML Слайдер",
+            classname="collapsed",
+        ),
         MultiFieldPanel([
             FieldPanel('articletext'),
             FieldPanel('articleurl'),
@@ -313,6 +347,36 @@ class ComponentsList(models.Model):
 
     class Meta:
         verbose_name_plural = 'Key components list'
+
+@register_snippet
+class MasterProgramList(models.Model):
+    mp_name = models.CharField(max_length=50, null=True, blank=True)
+    mp_text = RichTextField(blank=True)
+    mp_picture = models.ForeignKey(
+        'wagtailimages.Image', null=True, blank=True,
+        on_delete=models.SET_NULL, related_name='+'
+    )
+    mp_related_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+
+    panels = [
+        FieldPanel('mp_name'),
+        FieldPanel('mp_'),
+        FieldPanel('mp_picture'),
+        PageChooserPanel('mp_related_page'),
+    ]
+
+    def __str__(self):
+        return self.mp_name
+
+    class Meta:
+        verbose_name_plural = 'Master program list'
+
 
 
 # InternalPage удалиьть когда уберу страницы связанные с ней
