@@ -366,7 +366,7 @@ class MasterProgramList(models.Model):
 
     panels = [
         FieldPanel('mp_name'),
-        FieldPanel('mp_'),
+        FieldPanel('mp_text'),
         FieldPanel('mp_picture'),
         PageChooserPanel('mp_related_page'),
     ]
