@@ -3,25 +3,29 @@
 <div uk-filter="target: .js-filter">
 
     <div class="uk-grid-small uk-grid-divider uk-child-width-auto" uk-grid>
-        <div>
-            <ul class="uk-subnav uk-subnav-pill" uk-margin>
-                <li class="uk-active" uk-filter-control><a href="#">{{ value.filterall }}</a></li>
-            </ul>
-        </div>
-        <div>
-            <ul class="uk-subnav uk-subnav-pill" uk-margin>
-                {% for list1 in value.filterlist1 %}
-                <li uk-filter-control="filter: [data-color='{{ list1.fl1_code }}']; group: data-color"><a href="#">{{ list1.fl1_name }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="uk-width-1-1 uk-margin-remove-top">
-            <ul class="js-filter uk-subnav uk-subnav-pill " uk-margin>
-                {% for list2 in value.filterlist2 %}
-                <li data-color="{{ list2.fl2_fl1_code }}" uk-filter-control="filter: [data-size='{{ list2.fl2_code }}']; group: size"><a href="#">{{ list2.fl2_name }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% if value.filterall %}
+            <div>
+                <ul class="uk-subnav uk-subnav-pill" uk-margin>
+                    <li class="uk-active" uk-filter-control><a href="#">{{ value.filterall }}</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul class="uk-subnav uk-subnav-pill" uk-margin>
+                    {% for list1 in value.filterlist1 %}
+                    <li uk-filter-control="filter: [data-color='{{ list1.fl1_code }}']; group: data-color"><a href="#">{{ list1.fl1_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+
+            <div class="uk-width-1-1 uk-margin-remove-top">
+                <ul class="js-filter uk-subnav uk-subnav-pill " uk-margin>
+                    {% for list2 in value.filterlist2 %}
+                    <li data-color="{{ list2.fl2_fl1_code }}" uk-filter-control="filter: [data-size='{{ list2.fl2_code }}']; group: size"><a href="#">{{ list2.fl2_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
 
     <ul class="js-filter uk-child-width-1-2 uk-child-width-1-4@m uk-text-center" uk-grid="masonry: true">

@@ -111,7 +111,7 @@ class NewsBlock(blocks.StructBlock):
 
 class FilterBlock(blocks.StructBlock):
     filterlevel = blocks.IntegerBlock(help_text='1 or 2 - levels', default=1)
-    filterall = blocks.CharBlock(help_text='Текст для ВСЕ', default='ВСЕ')
+    filterall = blocks.CharBlock(help_text='Текст для ВСЕ', default='ВСЕ', required=False)
 
     filterlist1 = blocks.ListBlock(
         blocks.StructBlock(
